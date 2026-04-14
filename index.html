@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polygon - Design System & RD Builder</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    
+    <style>@import url('https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-straight/css/uicons-regular-straight.css');</style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#0A00BD',
+                            'blue-dark': '#000131',
+                            'blue-light': '#2168F5',
+                            green: '#33CC99',
+                            'green-dark': '#347859',
+                            'green-light': '#B1D55B',
+                            pink: '#FF3399',
+                            'pink-dark': '#8B1D64',
+                            orange: '#ED6F2D',
+                            yellow: '#F5C042',
+                            purple: '#7E1C88',
+                            black: '#000000',
+                            white: '#FFFFFF',
+                            gray: '#E7E7E7',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Open Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ==========================================================================
+           POLYGON BRAND BASE CSS
+           ========================================================================== */
+        
+        :root {
+            --color-primary: #0A00BD; 
+            --color-secondary: #33CC99;
+            --color-tertiary: #FF3399; 
+            --color-white: #FFFFFF;
+            --color-black: #000000;
+            --color-gray-light: #F4F4F4;
+            --color-gray-dark: #333333;
+            
+            --font-main: 'Open Sans', sans-serif;
+            
+            /* BRAND RULE: Geometric shapes (Polygons), NEVER curves */
+            --radius-none: 0px; 
+            --transition-default: all 0.3s ease;
+        }
+
+        /* Component-focused reset */
+        .poligono-app {
+            font-family: var(--font-main);
+            color: var(--color-black);
+            line-height: 1.6;
+        }
+
+        .poligono-app * {
+            border-radius: var(--radius-none) !important; /* Reinforcing the main anti-curves rule */
+        }
+
+        /* --- FULL TYPOGRAPHY (Responsive) --- 
+           Adjusted H1 max 48px, scaling the others, and P always 16px */
+        .tipo-h1 { font-size: 2.25rem; font-weight: 800; line-height: 1.2; color: var(--color-primary); margin-bottom: 1rem; } /* Mobile: 36px */
+        .tipo-h2 { font-size: 2rem; font-weight: 800; line-height: 1.2; color: var(--color-primary); margin-bottom: 1rem; }    /* Mobile: 32px */
+        .tipo-h3 { font-size: 1.625rem; font-weight: 700; line-height: 1.3; color: var(--color-primary); margin-bottom: 0.875rem; } /* Mobile: 26px */
+        .tipo-h4 { font-size: 1.375rem; font-weight: 700; line-height: 1.4; color: var(--color-gray-dark); margin-bottom: 0.75rem; } /* Mobile: 22px */
+        .tipo-h5 { font-size: 1.25rem; font-weight: 600; line-height: 1.4; color: var(--color-gray-dark); margin-bottom: 0.5rem; } /* Mobile: 20px */
+        .tipo-h6 { font-size: 1rem; font-weight: 600; line-height: 1.5; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-tertiary); margin-bottom: 0.5rem; } /* Mobile: 16px */
+        .tipo-p { font-size: 1rem; font-weight: 400; line-height: 1.6; color: var(--color-gray-dark); margin-bottom: 1rem; } /* Mobile: 16px */
+
+        @media (min-width: 768px) {
+            .tipo-h1 { font-size: 3rem; }     /* Desktop: 48px */
+            .tipo-h2 { font-size: 2.5rem; }   /* Desktop: 40px */
+            .tipo-h3 { font-size: 2rem; }     /* Desktop: 32px */
+            .tipo-h4 { font-size: 1.75rem; }  /* Desktop: 28px */
+            .tipo-h5 { font-size: 1.5rem; }   /* Desktop: 24px */
+            .tipo-h6 { font-size: 1.125rem; } /* Desktop: 18px */
+        }
+
+        /* --- BUTTONS --- */
+        .cmp-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-main);
+            font-weight: 700;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: var(--transition-default);
+            text-align: center;
+            gap: 0.5rem;
+        }
+        
+        .cmp-button--cta, .cmp-button--default { background-color: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+        .cmp-button--cta:hover, .cmp-button--default:hover { background-color: var(--color-tertiary); border-color: var(--color-tertiary); color: var(--color-white); }
+
+        .cmp-button--light { background-color: var(--color-white); color: var(--color-primary); border-color: var(--color-white); }
+        .cmp-button--light:hover { background-color: var(--color-gray-light); }
+
+        .cmp-button--outline { background-color: transparent; color: var(--color-primary); border-color: var(--color-primary); }
+        .cmp-button--outline:hover { background-color: var(--color-primary); color: var(--color-white); }
+
+        .cmp-button--medium { padding: 0.875rem 1.75rem; font-size: 1.125rem; }
+        .cmp-button--small { padding: 0.5rem 1rem; font-size: 0.875rem; }
+
+        /* --- LINKS --- */
+        .cmp-link-arrow { display: inline-flex; align-items: center; color: var(--color-primary); font-weight: 700; text-decoration: none; transition: var(--transition-default); }
+        .cmp-link-arrow::after { content: "→"; margin-left: 0.5rem; transition: transform 0.3s ease; }
+        .cmp-link-arrow:hover { color: var(--color-tertiary); }
+        .cmp-link-arrow:hover::after { transform: translateX(5px); }
+
+        /* --- FORMS --- */
+        .cmp-field { position: relative; width: 100%; margin-bottom: 1.5rem; }
+        .cmp-field__input { width: 100%; padding: 1rem; border: 2px solid var(--color-gray-light); background-color: var(--color-white); font-size: 1rem; color: var(--color-black); transition: var(--transition-default); outline: none; }
+        .cmp-field__input:focus { border-color: var(--color-primary); }
+        .cmp-field__label { position: absolute; left: 1rem; top: 1rem; color: #777; transition: var(--transition-default); pointer-events: none; background: var(--color-white); padding: 0 0.25rem; }
+        .cmp-field__input:focus ~ .cmp-field__label, .cmp-field__input:not(:placeholder-shown) ~ .cmp-field__label { top: -0.6rem; font-size: 0.75rem; color: var(--color-primary); font-weight: 600; }
+
+        /* --- BASE CARDS --- */
+        .cmp-card-media { display: flex; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-gray-light); height: 100%; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .cmp-card-media:hover { transform: translateY(-5px); box-shadow: 10px 10px 0px var(--color-secondary); border-color: var(--color-secondary); }
+        .cmp-card-media__hdr { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
+
+        /* --- ACCORDION --- */
+        details.cmp-accordion { border: 1px solid var(--color-gray-light); margin-bottom: 0.5rem; background: var(--color-white); }
+        details.cmp-accordion summary { padding: 1.25rem; font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: var(--color-primary); transition: var(--transition-default); }
+        details.cmp-accordion summary::-webkit-details-marker { display: none; }
+        details.cmp-accordion summary:hover { background-color: var(--color-gray-light); }
+        details.cmp-accordion[open] summary { border-bottom: 1px solid var(--color-gray-light); background-color: #f8fafc; }
+        details.cmp-accordion[open] summary i { transform: rotate(180deg); color: var(--color-tertiary); }
+        .cmp-accordion__content { padding: 1.25rem; color: var(--color-gray-dark); }
+
+        /* --- TABS --- */
+        .cmp-tabs__nav { display: flex; border-bottom: 2px solid var(--color-gray-light); overflow-x: auto; scrollbar-width: none; }
+        .cmp-tabs__nav::-webkit-scrollbar { display: none; }
+        .cmp-tabs__btn { padding: 1rem 1.5rem; font-weight: 700; color: #64748b; border-bottom: 3px solid transparent; margin-bottom: -2px; cursor: pointer; transition: var(--transition-default); white-space: nowrap; flex-shrink: 0; }
+        .cmp-tabs__btn:hover { color: var(--color-primary); background-color: var(--color-gray-light); }
+        .cmp-tabs__btn.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+        .cmp-tabs__pane { display: none; padding: 2rem; border: 1px solid var(--color-gray-light); border-top: none; background: var(--color-white); }
+        .cmp-tabs__pane.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- NEW CAROUSEL (Arrows and Pagination with Padding) --- */
+        .cmp-carousel-wrapper { position: relative; width: 100%; padding-bottom: 3rem; overflow: hidden; padding-top: 1rem; }
+        .cmp-carousel-container { overflow: hidden; margin: 0 40px; } 
+        .cmp-carousel-track { display: flex; transition: transform 0.4s ease-in-out; }
+        .cmp-carousel-item { flex: 0 0 100%; min-width: 0; padding: 1rem; }
+        @media(min-width: 768px) { .cmp-carousel-item { flex: 0 0 50%; } }
+        @media(min-width: 1024px) { .cmp-carousel-item { flex: 0 0 33.3333%; } }
+        
+        .cmp-carousel-btn { position: absolute; top: calc(50% - 1.5rem); transform: translateY(-50%); background: var(--color-primary); color: white; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; transition: var(--transition-default); border: none; }
+        .cmp-carousel-btn:hover { background: var(--color-tertiary); }
+        .cmp-carousel-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .cmp-carousel-btn--prev { left: 0; }
+        .cmp-carousel-btn--next { right: 0; }
+
+        .cmp-carousel-dots { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; }
+        .cmp-carousel-dot { width: 12px; height: 12px; background: var(--color-gray-light); cursor: pointer; transition: var(--transition-default); border: none; padding: 0; }
+        .cmp-carousel-dot:hover { background: var(--color-gray-dark); }
+        .cmp-carousel-dot.active { background: var(--color-primary); transform: scale(1.2); }
+
+        /* ==========================================================================
+           VIEWER STYLES (DOCUMENTATION)
+           ========================================================================== */
+        body { background-color: #f8fafc; }
+        .ds-sidebar { height: 100vh; position: fixed; width: 280px; overflow-y: auto; }
+        .ds-main { margin-left: 280px; padding: 3rem; }
+        @media(max-width: 1024px) {
+            .ds-sidebar { display: none; }
+            .ds-main { margin-left: 0; padding: 1.5rem; }
+        }
+        .ds-section { margin-bottom: 4rem; background: white; padding: 2rem; border: 1px solid #e2e8f0; border-radius: 8px !important; overflow-x: hidden; }
+        .color-swatch { width: 100%; height: 80px; border-radius: 0px !important; margin-bottom: 0.5rem; cursor: pointer; transition: transform 0.2s;}
+        .color-swatch:hover { transform: scale(1.02); }
+        .color-swatch:active { transform: scale(0.95); }
+        .ds-title { font-size: 2rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; }
+        .ds-subtitle { font-size: 1.1rem; color: #64748b; margin-bottom: 2rem; }
+        
+        /* New active link styling in the sidebar using brand color */
+        .nav-link.active { background-color: #000131 !important; color: #33CC99 !important; font-weight: 700; border-left: 4px solid #33CC99; }
+        
+        .builder-input { width: 100%; border: 1px solid #cbd5e1; padding: 0.5rem; font-size: 0.875rem; border-radius: 0px; outline: none; background: #fff;}
+        .builder-input:focus { border-color: #0A00BD; }
+        .builder-tab { padding: 0.75rem 1rem; font-weight: bold; color: #64748b; cursor: pointer; border-bottom: 2px solid transparent; flex-shrink: 0; white-space: nowrap; }
+        .builder-tab.active { color: #0A00BD; border-bottom-color: #0A00BD; background: #f8fafc; }
+        
+        .builder-tab-adv { padding: 0.75rem 1rem; font-weight: bold; color: #64748b; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.3s; flex-shrink: 0; white-space: nowrap; }
+        .builder-tab-adv.active { color: #33CC99; border-bottom-color: #33CC99; background: #f8fafc; }
+    </style>
+</head>
+<body class="flex text-slate-800">
+
+    <aside class="ds-sidebar bg-slate-900 text-slate-300 flex flex-col shadow-xl z-10 border-r border-slate-800">
+        <div class="p-6 bg-slate-950 border-b border-slate-800 flex items-center justify-center">
+            <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/cd5dd249eae428fb12b9731ecb81187dd3b96332/logos/logo-poligono-white%201.png" alt="Polygon" class="h-10 object-contain">
+        </div>
+        <nav class="flex-1 py-4">
+            <ul class="space-y-1">
+                <li><a href="#cores" class="nav-link block px-6 py-3 hover:bg-slate-800 hover:text-white transition-colors active">Full Colors</a></li>
+                <li><a href="#tipografia" class="nav-link block px-6 py-3 hover:bg-slate-800 hover:text-white transition-colors">Responsive Typography</a></li>
+                <li><a href="#grafismos" class="nav-link block px-6 py-3 hover:bg-slate-800 hover:text-white transition-colors">Graphics and Shapes</a></li>
+                <li><a href="#componentes" class="nav-link block px-6 py-3 hover:bg-slate-800 hover:text-white transition-colors">UI Components</a></li>
+                <li><a href="#builder-advanced" class="nav-link block px-6 py-3 bg-brand-green text-white font-bold hover:bg-brand-blue transition-colors mt-2">RD Station Builder 🚀</a></li>
+                <li class="pt-4 pb-2 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Web Templates</li>
+                <li><a href="#template-lp" class="nav-link block px-6 py-3 hover:bg-slate-800 hover:text-white transition-colors">Landing Page</a></li>
+                <li><a href="#template-ty" class="nav-link block px-6 py-3 hover:bg-slate-800 hover:text-white transition-colors">Thank You Page</a></li>
+                <li class="pt-4 pb-2 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Email Templates</li>
+                <li><a href="#template-email-1" class="nav-link block px-6 py-3 hover:bg-slate-800 hover:text-white transition-colors">Email: Delivery</a></li>
+                <li><a href="#template-email-2" class="nav-link block px-6 py-3 hover:bg-slate-800 hover:text-white transition-colors">Email: Newsletter</a></li>
+                <li class="pt-4 pb-2 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Pop-ups</li>
+                <li><a href="#template-popups" class="nav-link block px-6 py-3 hover:bg-slate-800 hover:text-white transition-colors">Pop-ups (Overlay)</a></li>
+            </ul>
+        </nav>
+        <div class="p-6 border-t border-slate-800 text-xs text-slate-500">
+            Updated: Flaticon Uicons + Intersection Observer Scrollspy.
+        </div>
+    </aside>
+
+    <main class="ds-main flex-1 w-full max-w-full">
+
+        <section id="cores" class="ds-section">
+            <h2 class="ds-title">Color Palette</h2>
+            <p class="ds-subtitle">The official brand colors. Click the blocks to copy the HEX.</p>
+
+            <h3 class="font-bold text-lg mb-4 border-b pb-2">Main Colors (Highlight)</h3>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
+                <div class="border border-slate-200 !rounded-none p-4 flex items-center gap-4">
+                    <div class="color-swatch w-16 h-16 md:w-24 md:h-24 bg-[#0A00BD]" onclick="copyColor('#0A00BD')" title="Click to copy: #0A00BD"></div>
+                    <div class="flex-1">
+                        <p class="font-bold">Polygon Blue</p>
+                        <p class="text-xs md:text-sm text-slate-500">Digital: HEX #0A00BD</p>
+                        <p class="text-xs md:text-sm text-slate-500">Print: CMYK 100/85/0/0</p>
+                    </div>
+                </div>
+                <div class="border border-slate-200 !rounded-none p-4 flex items-center gap-4 bg-slate-50">
+                    <div class="color-swatch w-16 h-16 md:w-24 md:h-24 bg-[#FFFFFF] border border-slate-300 flex-shrink-0" onclick="copyColor('#FFFFFF')" title="Click to copy: #FFFFFF"></div>
+                    <div class="flex-1">
+                        <p class="font-bold">White</p>
+                        <p class="text-xs md:text-sm text-slate-500">Digital: HEX #FFFFFF</p>
+                        <p class="text-xs md:text-sm text-slate-500">Print: CMYK 0/0/0/0</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="font-bold text-lg mb-4 border-b pb-2">Secondary Colors (Complementary and Nuances)</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="border border-slate-200 !rounded-none p-4">
+                    <div class="color-swatch bg-[#33CC99]" onclick="copyColor('#33CC99')" title="Click to copy: #33CC99"></div>
+                    <p class="font-bold mt-2 text-sm md:text-base">Main Green</p>
+                    <p class="text-xs text-slate-500 break-words">HEX #33CC99<br>CMYK 70/0/55/0</p>
+                </div>
+                <div class="border border-slate-200 !rounded-none p-4">
+                    <div class="color-swatch bg-[#FF3399]" onclick="copyColor('#FF3399')" title="Click to copy: #FF3399"></div>
+                    <p class="font-bold mt-2 text-sm md:text-base">Main Pink</p>
+                    <p class="text-xs text-slate-500 break-words">HEX #FF3399<br>CMYK 0/85/0/0</p>
+                </div>
+                <div class="border border-slate-200 !rounded-none p-4">
+                    <div class="color-swatch bg-[#E7E7E7]" onclick="copyColor('#E7E7E7')" title="Click to copy: #E7E7E7"></div>
+                    <p class="font-bold mt-2 text-sm md:text-base">Gray</p>
+                    <p class="text-xs text-slate-500 break-words">HEX #E7E7E7<br>CMYK 0/0/0/20</p>
+                </div>
+                <div class="border border-slate-200 !rounded-none p-4">
+                    <div class="color-swatch bg-[#000131]" onclick="copyColor('#000131')" title="Click to copy: #000131"></div>
+                    <p class="font-bold mt-2 text-slate-800 text-sm md:text-base">Dark Blue</p>
+                    <p class="text-xs text-slate-500 break-words">HEX #000131<br>CMYK 100/60/0/60</p>
+                </div>
+                <div class="border border-slate-200 !rounded-none p-4">
+                    <div class="color-swatch bg-[#2168F5]" onclick="copyColor('#2168F5')" title="Click to copy: #2168F5"></div>
+                    <p class="font-bold mt-2 text-sm md:text-base">Light Blue</p>
+                    <p class="text-xs text-slate-500 break-words">HEX #2168F5<br>CMYK 85/60/0/0</p>
+                </div>
+                <div class="border border-slate-200 !rounded-none p-4">
+                    <div class="color-swatch bg-[#347859]" onclick="copyColor('#347859')" title="Click to copy: #347859"></div>
+                    <p class="font-bold mt-2 text-sm md:text-base">Dark Green</p>
+                    <p class="text-xs text-slate-500 break-words">HEX #347859<br>CMYK 100/0/70/20</p>
+                </div>
+                <div class="border border-slate-200 !rounded-none p-4">
+                    <div class="color-swatch bg-[#B1D55B]" onclick="copyColor('#B1D55B')" title="Click to copy: #B1D55B"></div>
+                    <p class="font-bold mt-2 text-sm md:text-base">Lime Green</p>
+                    <p class="text-xs text-slate-500 break-words">HEX #B1D55B<br>CMYK 45/0/85/0</p>
+                </div>
+                <div class="border border-slate-200 !rounded-none p-4">
+                    <div class="color-swatch bg-[#8B1D64]" onclick="copyColor('#8B1D64')" title="Click to copy: #8B1D64"></div>
+                    <p class="font-bold mt-2 text-sm md:text-base">Dark Pink</p>
+                    <p class="text-xs text-slate-500 break-words">HEX #8B1D64<br>CMYK 50/100/20/10</p>
+                </div>
+            </div>
+
+            <h3 class="font-bold text-lg mb-4 border-b pb-2">Support Colors</h3>
+            <p class="text-sm text-slate-600 mb-4">Used sparingly for charts, illustrations, and alerts.</p>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="border border-slate-200 !rounded-none p-4">
+                    <div class="color-swatch bg-[#F5C042]" onclick="copyColor('#F5C042')" title="Click to copy: #F5C042"></div>
+                    <p class="font-bold mt-2 text-sm md:text-base">Yellow</p>
+                    <p class="text-xs text-slate-500 break-words">HEX #F5C042<br>CMYK 0/30/95/0</p>
+                </div>
+                <div class="border border-slate-200 !rounded-none p-4">
+                    <div class="color-swatch bg-[#ED6F2D]" onclick="copyColor('#ED6F2D')" title="Click to copy: #ED6F2D"></div>
+                    <p class="font-bold mt-2 text-sm md:text-base">Orange</p>
+                    <p class="text-xs text-slate-500 break-words">HEX #ED6F2D<br>CMYK 0/75/95/0</p>
+                </div>
+                <div class="border border-slate-200 !rounded-none p-4">
+                    <div class="color-swatch bg-[#7E1C88]" onclick="copyColor('#7E1C88')" title="Click to copy: #7E1C88"></div>
+                    <p class="font-bold mt-2 text-sm md:text-base">Purple</p>
+                    <p class="text-xs text-slate-500 break-words">HEX #7E1C88<br>CMYK 60/100/0/0</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tipografia" class="ds-section poligono-app">
+            <h2 class="ds-title">Responsive Typography</h2>
+            <p class="ds-subtitle">Desktop and Mobile settings. Resize the screen to see the adaptation.</p>
+
+            <div class="border border-slate-200 overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-[600px]">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-600 text-sm">
+                            <th class="p-4 border-b border-slate-200">Tag / Class</th>
+                            <th class="p-4 border-b border-slate-200">Preview</th>
+                            <th class="p-4 border-b border-slate-200">Desktop (px / rem)</th>
+                            <th class="p-4 border-b border-slate-200">Mobile (px / rem)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="p-4 border-b border-slate-200 font-mono text-sm text-brand-pink">H1<br>.tipo-h1</td>
+                            <td class="p-4 border-b border-slate-200"><h1 class="tipo-h1 !mb-0">Title H1</h1></td>
+                            <td class="p-4 border-b border-slate-200 text-sm">48px / 3rem<br>Weight: 800</td>
+                            <td class="p-4 border-b border-slate-200 text-sm">36px / 2.25rem<br>Weight: 800</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-slate-200 font-mono text-sm text-brand-pink">H2<br>.tipo-h2</td>
+                            <td class="p-4 border-b border-slate-200"><h2 class="tipo-h2 !mb-0">Title H2</h2></td>
+                            <td class="p-4 border-b border-slate-200 text-sm">40px / 2.5rem<br>Weight: 800</td>
+                            <td class="p-4 border-b border-slate-200 text-sm">32px / 2rem<br>Weight: 800</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-slate-200 font-mono text-sm text-brand-pink">H3<br>.tipo-h3</td>
+                            <td class="p-4 border-b border-slate-200"><h3 class="tipo-h3 !mb-0">Title H3</h3></td>
+                            <td class="p-4 border-b border-slate-200 text-sm">32px / 2rem<br>Weight: 700</td>
+                            <td class="p-4 border-b border-slate-200 text-sm">26px / 1.625rem<br>Weight: 700</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-slate-200 font-mono text-sm text-brand-pink">H4<br>.tipo-h4</td>
+                            <td class="p-4 border-b border-slate-200"><h4 class="tipo-h4 !mb-0">Title H4</h4></td>
+                            <td class="p-4 border-b border-slate-200 text-sm">28px / 1.75rem<br>Weight: 700</td>
+                            <td class="p-4 border-b border-slate-200 text-sm">22px / 1.375rem<br>Weight: 700</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-slate-200 font-mono text-sm text-brand-pink">H5<br>.tipo-h5</td>
+                            <td class="p-4 border-b border-slate-200"><h5 class="tipo-h5 !mb-0">Title H5</h5></td>
+                            <td class="p-4 border-b border-slate-200 text-sm">24px / 1.5rem<br>Weight: 600</td>
+                            <td class="p-4 border-b border-slate-200 text-sm">20px / 1.25rem<br>Weight: 600</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-slate-200 font-mono text-sm text-brand-pink">H6 / Overline<br>.tipo-h6</td>
+                            <td class="p-4 border-b border-slate-200"><h6 class="tipo-h6 !mb-0">Title H6</h6></td>
+                            <td class="p-4 border-b border-slate-200 text-sm">18px / 1.125rem<br>Weight: 600 (UPPER)</td>
+                            <td class="p-4 border-b border-slate-200 text-sm">16px / 1rem<br>Weight: 600 (UPPER)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-mono text-sm text-brand-pink">Paragraph<br>.tipo-p</td>
+                            <td class="p-4"><p class="tipo-p !mb-0">Body text used for long blocks of reading. Fixed at 16px.</p></td>
+                            <td class="p-4 text-sm">16px / 1rem<br>Weight: 400</td>
+                            <td class="p-4 text-sm">16px / 1rem<br>Weight: 400</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="grafismos" class="ds-section poligono-app">
+            <h2 class="ds-title">Graphics, Patterns, and Shapes</h2>
+            <p class="ds-subtitle">Visual construction through regular and irregular polygons.</p>
+
+            <h3 class="font-bold text-lg mb-4 border-b pb-2">Brand Patterns</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+                <div class="bg-slate-100 p-2 border border-slate-200 h-32 md:h-48 overflow-hidden relative group">
+                    <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/072f8540fa00def5745e3a41d0efba7aadeaec53/padroes/Rectangle-1.png" alt="Pattern 1" class="w-full h-full object-cover transition-transform group-hover:scale-105">
+                </div>
+                <div class="bg-slate-100 p-2 border border-slate-200 h-32 md:h-48 overflow-hidden relative group">
+                    <img src="https://github.com/Design-8DHubify/sistema-poligono/blob/072f8540fa00def5745e3a41d0efba7aadeaec53/padroes/Rectangle-2.png?raw=true" alt="Pattern 2" class="w-full h-full object-cover transition-transform group-hover:scale-105">
+                </div>
+                <div class="bg-slate-100 p-2 border border-slate-200 h-32 md:h-48 overflow-hidden relative group">
+                    <img src="https://github.com/Design-8DHubify/sistema-poligono/blob/072f8540fa00def5745e3a41d0efba7aadeaec53/padroes/Rectangle-3.png?raw=true" alt="Pattern 3" class="w-full h-full object-cover transition-transform group-hover:scale-105">
+                </div>
+                <div class="bg-slate-100 p-2 border border-slate-200 h-32 md:h-48 overflow-hidden relative group">
+                    <img src="https://github.com/Design-8DHubify/sistema-poligono/blob/072f8540fa00def5745e3a41d0efba7aadeaec53/padroes/Rectangle.png?raw=true" alt="Pattern 4" class="w-full h-full object-cover transition-transform group-hover:scale-105">
+                </div>
+            </div>
+
+            <h3 class="font-bold text-lg mb-4 border-b pb-2">Regular Polygons (B2B Communication)</h3>
+            <div class="flex flex-wrap gap-6 mb-10 justify-center md:justify-start">
+                <div class="flex flex-col items-center gap-2">
+                    <svg width="80" height="80" viewBox="0 0 100 100" fill="var(--color-primary)">
+                        <polygon points="50,10 90,90 10,90"/>
+                    </svg>
+                    <span class="text-xs text-slate-500 uppercase">Triangle</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <svg width="80" height="80" viewBox="0 0 100 100" fill="var(--color-secondary)">
+                        <rect x="15" y="15" width="70" height="70"/>
+                    </svg>
+                    <span class="text-xs text-slate-500 uppercase">Square</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <svg width="80" height="80" viewBox="0 0 100 100" fill="var(--color-tertiary)">
+                        <polygon points="50,5 95,38 78,95 22,95 5,38"/>
+                    </svg>
+                    <span class="text-xs text-slate-500 uppercase">Pentagon</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <svg width="80" height="80" viewBox="0 0 100 100" fill="#F5C042">
+                        <polygon points="50,5 95,28 95,72 50,95 5,72 5,28"/>
+                    </svg>
+                    <span class="text-xs text-slate-500 uppercase">Hexagon</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <svg width="80" height="80" viewBox="0 0 100 100" fill="#7E1C88">
+                        <polygon points="50,0 75,6.7 93.3,25 100,50 93.3,75 75,93.3 50,100 25,93.3 6.7,75 0,50 6.7,25 25,6.7"/>
+                    </svg>
+                    <span class="text-xs text-slate-500 uppercase">Dodecagon</span>
+                </div>
+            </div>
+
+            <h3 class="font-bold text-lg mb-4 border-b pb-2">Irregular Polygons (B2C Communication - Students)</h3>
+            <div class="flex flex-wrap gap-6 justify-center md:justify-start bg-slate-50 p-6 border border-slate-200">
+                <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/refs/heads/main/poligonos%20irregulares/Asset%201.svg" class="w-16 h-16 md:w-20 md:h-20" alt="Irregular 1">
+                <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/refs/heads/main/poligonos%20irregulares/Asset%202.svg" class="w-16 h-16 md:w-20 md:h-20" alt="Irregular 2">
+                <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/refs/heads/main/poligonos%20irregulares/Asset%203.svg" class="w-16 h-16 md:w-20 md:h-20" alt="Irregular 3">
+                <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/refs/heads/main/poligonos%20irregulares/Asset%204.svg" class="w-16 h-16 md:w-20 md:h-20" alt="Irregular 4">
+                <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/refs/heads/main/poligonos%20irregulares/Asset%205.svg" class="w-16 h-16 md:w-20 md:h-20" alt="Irregular 5">
+            </div>
+        </section>
+
+        <section id="componentes" class="ds-section poligono-app">
+            <h2 class="ds-title">UI Components</h2>
+            <p class="ds-subtitle">Cards with icons (Uicons), Accordions, Tabs, and Carousels built without curves.</p>
+
+            <h3 class="tipo-h4 mt-8 border-b pb-2">Dynamic Cards (with Uicons)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="p-6 border border-slate-200 bg-white hover:border-brand-primary hover:shadow-[8px_8px_0px_#0A00BD] transition-all duration-300">
+                    <i class="fi fi-rs-graduation-cap text-4xl text-brand-primary mb-4 block"></i>
+                    <h4 class="tipo-h5">Education of the Future</h4>
+                    <p class="tipo-p text-sm">We build methodologies based on real, applicable 21st-century learning.</p>
+                </div>
+                <div class="p-6 border border-slate-200 bg-white hover:border-brand-green hover:shadow-[8px_8px_0px_#33CC99] transition-all duration-300">
+                    <i class="fi fi-rs-puzzle-piece text-4xl text-brand-green mb-4 block"></i>
+                    <h4 class="tipo-h5">Flexibility</h4>
+                    <p class="tipo-p text-sm">Adaptable modules that respect the individuality of each student and school.</p>
+                </div>
+                <div class="p-6 border border-slate-200 bg-white hover:border-brand-pink hover:shadow-[8px_8px_0px_#FF3399] transition-all duration-300">
+                    <i class="fi fi-rs-rocket text-4xl text-brand-pink mb-4 block"></i>
+                    <h4 class="tipo-h5">Technology</h4>
+                    <p class="tipo-p text-sm">Truly relevant technological resources that engage students daily.</p>
+                </div>
+            </div>
+
+            <h3 class="tipo-h4 mt-8 border-b pb-2">Accordion</h3>
+            <div class="mb-12 max-w-3xl">
+                <details class="cmp-accordion" name="faq">
+                    <summary>
+                        How does the system implementation work?
+                        <i class="fi fi-rs-angle-down"></i>
+                    </summary>
+                    <div class="cmp-accordion__content">
+                        <p class="tipo-p mb-0">Our specialized team accompanies the school step by step, from teacher training to the integration of technologies in the classroom.</p>
+                    </div>
+                </details>
+                <details class="cmp-accordion" name="faq">
+                    <summary>
+                        Is the material aligned with the BNCC?
+                        <i class="fi fi-rs-angle-down"></i>
+                    </summary>
+                    <div class="cmp-accordion__content">
+                        <p class="tipo-p mb-0">Yes. Our materials, fully aligned with the BNCC, go beyond traditional content: they awaken skills, build competencies, and embrace socio-emotional training.</p>
+                    </div>
+                </details>
+            </div>
+
+            <h3 class="tipo-h4 mt-8 border-b pb-2">Tabs (Content Tabs)</h3>
+            <div class="mb-12 max-w-4xl">
+                <div class="cmp-tabs border border-slate-200 shadow-sm bg-white overflow-hidden">
+                    <div class="cmp-tabs__nav flex border-b border-slate-200 bg-slate-50 overflow-x-auto" role="tablist">
+                        <button class="cmp-tabs__btn flex-1 py-4 px-6 font-bold text-slate-500 border-b-4 border-transparent hover:bg-white hover:text-brand-blue transition-colors focus:outline-none active !border-brand-blue !text-brand-blue whitespace-nowrap" data-target="#tab-1-1" role="tab">Early Childhood</button>
+                        <button class="cmp-tabs__btn flex-1 py-4 px-6 font-bold text-slate-500 border-b-4 border-transparent hover:bg-white hover:text-brand-green transition-colors focus:outline-none whitespace-nowrap" data-target="#tab-1-2" role="tab">Elem. Early Years</button>
+                        <button class="cmp-tabs__btn flex-1 py-4 px-6 font-bold text-slate-500 border-b-4 border-transparent hover:bg-white hover:text-brand-pink transition-colors focus:outline-none whitespace-nowrap" data-target="#tab-1-3" role="tab">Elem. Final Years</button>
+                    </div>
+                    <div class="cmp-tabs__content p-6 md:p-8">
+                        <div id="tab-1-1" class="cmp-tabs__pane active block" role="tabpanel">
+                            <div class="flex flex-col md:flex-row gap-6 items-start">
+                                <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=400" alt="Early Childhood" class="w-full md:w-1/3 aspect-video object-cover">
+                                <div class="flex-1">
+                                    <h4 class="tipo-h3 text-brand-blue"><i class="fi fi-rs-users text-2xl mr-2"></i>Early Childhood Education</h4>
+                                    <p class="tipo-p">In early childhood, everything starts with affection. We value interactions, play, and bonding with families for healthy development.</p>
+                                    <a href="#" class="cmp-button cmp-button--cta mt-2"><span class="cmp-button__inner">Learn More</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-1-2" class="cmp-tabs__pane hidden" role="tabpanel">
+                            <div class="flex flex-col md:flex-row gap-6 items-start">
+                                <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=400" alt="Early Years" class="w-full md:w-1/3 aspect-video object-cover">
+                                <div class="flex-1">
+                                    <h4 class="tipo-h3 text-brand-green"><i class="fi fi-rs-book-alt text-2xl mr-2"></i>Elementary School – Early Years</h4>
+                                    <p class="tipo-p">This is where curiosity gains strength! Mathematical literacy, reading, and encouraging research are the pillars of this stage.</p>
+                                    <a href="#" class="cmp-button bg-brand-green hover:bg-brand-blue text-white mt-2 font-bold"><span class="cmp-button__inner">Explore Matrix</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-1-3" class="cmp-tabs__pane hidden" role="tabpanel">
+                            <div class="flex flex-col md:flex-row gap-6 items-start">
+                                <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&q=80&w=400" alt="Final Years" class="w-full md:w-1/3 aspect-video object-cover">
+                                <div class="flex-1">
+                                    <h4 class="tipo-h3 text-brand-pink"><i class="fi fi-rs-rocket text-2xl mr-2"></i>Elementary School – Final Years</h4>
+                                    <p class="tipo-p">We prepare young people for study autonomy, deepening concepts and stimulating critical thinking and complex problem-solving.</p>
+                                    <a href="#" class="cmp-button bg-brand-pink hover:bg-brand-blue text-white mt-2 font-bold"><span class="cmp-button__inner">Consult Material</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="tipo-h4 mt-8 border-b pb-2">News / Collections Carousel</h3>
+            <p class="tipo-p text-sm mb-6">Navigation via arrows and pagination bullets. The padding creates a safe space so that the inner shadows are not cut off.</p>
+            
+            <div class="cmp-carousel-wrapper" id="docs-carousel-wrapper">
+                <button class="cmp-carousel-btn cmp-carousel-btn--prev" aria-label="Previous"><i class="fi fi-rs-angle-left"></i></button>
+                <button class="cmp-carousel-btn cmp-carousel-btn--next" aria-label="Next"><i class="fi fi-rs-angle-right"></i></button>
+
+                <div class="cmp-carousel-container">
+                    <div class="cmp-carousel-track">
+                        <div class="cmp-carousel-item">
+                            <article class="cmp-card-media">
+                                <div class="cmp-card-media__head"><img class="cmp-card-media__head-img" src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&q=80&w=400" alt="Post"></div>
+                                <div class="cmp-card-media__hdr p-6">
+                                    <div class="cmp-card-media__body">
+                                        <h3 class="cmp-card-media__title text-lg">Active Methodologies</h3>
+                                        <div class="cmp-card-media__desc"><p class="tipo-p text-sm">Learn more about the advantages of active methodologies such as blended learning and project-based learning.</p></div>
+                                    </div>
+                                    <div class="cmp-card-media__foot mt-4">
+                                        <a href="#" class="cmp-button cmp-button--outline cmp-button--small w-full"><span class="cmp-button__inner">Read more</span></a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="cmp-carousel-item">
+                            <article class="cmp-card-media border-t-4 border-t-brand-green">
+                                <div class="cmp-card-media__head"><img class="cmp-card-media__head-img" src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=400" alt="Post"></div>
+                                <div class="cmp-card-media__hdr p-6">
+                                    <div class="cmp-card-media__body">
+                                        <h3 class="cmp-card-media__title text-lg">Generation Alpha</h3>
+                                        <div class="cmp-card-media__desc"><p class="tipo-p text-sm">Characteristics of Generation Alpha and what strategies the school can invest in to ensure ideal support.</p></div>
+                                    </div>
+                                    <div class="cmp-card-media__foot mt-4">
+                                        <a href="#" class="cmp-button cmp-button--outline cmp-button--small w-full"><span class="cmp-button__inner">Read more</span></a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="cmp-carousel-item">
+                            <article class="cmp-card-media border-t-4 border-t-brand-pink">
+                                <div class="cmp-card-media__head"><img class="cmp-card-media__head-img" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=400" alt="Post"></div>
+                                <div class="cmp-card-media__hdr p-6">
+                                    <div class="cmp-card-media__body">
+                                        <h3 class="cmp-card-media__title text-lg">The importance of BNCC</h3>
+                                        <div class="cmp-card-media__desc"><p class="tipo-p text-sm">Understand if your school is in accordance with the guidelines in Early Childhood and Elementary Education.</p></div>
+                                    </div>
+                                    <div class="cmp-card-media__foot mt-4">
+                                        <a href="#" class="cmp-button cmp-button--outline cmp-button--small w-full"><span class="cmp-button__inner">Read more</span></a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="cmp-carousel-item">
+                            <article class="cmp-card-media border-t-4 border-t-brand-yellow">
+                                <div class="cmp-card-media__head"><img class="cmp-card-media__head-img" src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=400" alt="Post"></div>
+                                <div class="cmp-card-media__hdr p-6">
+                                    <div class="cmp-card-media__body">
+                                        <h3 class="cmp-card-media__title text-lg">School Management</h3>
+                                        <div class="cmp-card-media__desc"><p class="tipo-p text-sm">The role of the manager and their importance to develop leaders and transform the school.</p></div>
+                                    </div>
+                                    <div class="cmp-card-media__foot mt-4">
+                                        <a href="#" class="cmp-button cmp-button--outline cmp-button--small w-full"><span class="cmp-button__inner">Read more</span></a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+                <div class="cmp-carousel-dots"></div>
+            </div>
+
+        </section>
+
+        <section id="builder-advanced" class="ds-section poligono-app bg-white">
+            <h2 class="ds-title text-brand-green">RD Station Builder 🚀</h2>
+            <p class="ds-subtitle">Expanded module with additive architecture, smart CTAs, rich tabs, and Icon Gallery.</p>
+
+            <div class="mb-10 bg-slate-50 p-6 border border-slate-200">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-lg text-slate-800">1. Global CSS (Copy to RD Header)</h3>
+                    <button class="cmp-button cmp-button--outline cmp-button--small" onclick="copyCSSGlobal()">
+                        <i class="fi fi-rs-copy"></i> Copy CSS
+                    </button>
+                </div>
+                <p class="text-sm text-slate-600 mb-4">Paste this code in the advanced CSS/Custom Code area of the Landing Page in RD Station to ensure that typography (Open Sans), unrounded buttons, and sizes are applied globally.</p>
+                <pre class="bg-slate-900 text-slate-300 p-4 text-xs overflow-x-auto" id="css-global-code">/* =========================================
+   1. FONTS IMPORT AND GENERAL BEHAVIOR
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap');
+@import url('https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-straight/css/uicons-regular-straight.css');
+
+html { scroll-behavior: smooth; }
+
+/* =========================================
+   2. FONT FAMILIES AND SIZES (POLYGON)
+   ========================================= */
+h1, h2, h3, h4, h5, h6, p, ul, li, div, span, .rd-button {
+    font-family: "Open Sans", sans-serif !important;
+}
+
+h1 strong, h1 b, h2 strong, h2 b, h3 strong, h3 b,
+h4 strong, h4 b, h5 strong, h5 b, h6 strong, h6 b,
+p strong, p b, div strong, div b, span strong, span b,
+li strong, li b, .rd-text strong, .rd-text b {
+    font-family: "Open Sans", sans-serif !important;
+    font-weight: 700 !important;
+}
+
+i, em { font-family: inherit !important; }
+
+/* --- Desktop Sizes --- */
+h1, h1 * { font-size: 48px !important; font-weight: 800 !important; color: #0A00BD !important; }
+h2, h2 * { font-size: 40px !important; font-weight: 800 !important; color: #0A00BD !important; }
+h3, h3 * { font-size: 32px !important; font-weight: 700 !important; color: #0A00BD !important; }
+h4, h4 * { font-size: 28px !important; font-weight: 700 !important; color: #333333 !important; }
+h5, h5 * { font-size: 24px !important; font-weight: 600 !important; color: #333333 !important; }
+h6, h6 * { font-size: 18px !important; font-weight: 600 !important; color: #FF3399 !important; text-transform: uppercase !important;}
+p, ul, li, .text-box { font-size: 16px !important; line-height: 1.6 !important; color: #333333 !important; }
+
+/* --- Mobile Sizes --- */
+@media (max-width: 768px) {
+    h1, h1 * { font-size: 36px !important; }
+    h2, h2 * { font-size: 32px !important; }
+    h3, h3 * { font-size: 26px !important; }
+    h4, h4 * { font-size: 22px !important; }
+    h5, h5 * { font-size: 20px !important; }
+    h6, h6 * { font-size: 16px !important; }
+}
+
+/* =========================================
+   3. NATIVE RD STATION BUTTONS
+   ========================================= */
+.rd-button {
+    padding: 12px 24px !important; cursor: pointer !important; transition: all 0.3s ease !important;
+    background-color: #0A00BD !important; color: #FFFFFF !important; border-radius: 0px !important; 
+    text-decoration: none !important; font-weight: 700 !important; border: 2px solid #0A00BD !important;
+    display: inline-block !important; text-align: center !important;
+}
+.rd-button:hover { background-color: #FF3399 !important; border-color: #FF3399 !important; color: #FFFFFF !important; }
+button { border: 0px !important; }</pre>
+            </div>
+
+            <div class="bg-white border border-slate-200 shadow-sm">
+                <div class="flex border-b border-slate-200 bg-slate-100 overflow-x-auto">
+                    <button class="builder-tab-adv active" onclick="switchAdvTab('componentes')"><i class="fi fi-rs-apps"></i> Expanded Components</button>
+                    <button class="builder-tab-adv" onclick="switchAdvTab('icones')"><i class="fi fi-rs-search"></i> Pro Icon Gallery</button>
+                </div>
+
+                <div id="adv-tab-componentes" class="p-6 block">
+                    <div class="flex flex-col md:flex-row justify-between md:items-center mb-6 pb-4 border-b border-slate-100 gap-4">
+                        <div class="flex flex-col md:flex-row md:items-center gap-4">
+                            <label class="font-bold text-sm text-slate-700">Component Type:</label>
+                            <select id="adv-component-type" class="builder-input w-full md:w-48 font-bold text-brand-green" onchange="advChangeComponentType()">
+                                <option value="tabs">Tabs with Image and CTA</option>
+                                <option value="cards">Dynamic Cards</option>
+                                <option value="accordion">Accordion</option>
+                                <option value="carousel">Safe Carousel</option>
+                            </select>
+                        </div>
+                        <button class="cmp-button bg-brand-green hover:bg-brand-blue text-white font-bold w-full md:w-auto" onclick="advCopyBuilderHTML()">
+                            <i class="fi fi-rs-code"></i> Copy Safe Code
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <div class="lg:col-span-5 bg-slate-50 p-4 border border-slate-200 h-[650px] overflow-y-auto">
+                            <h4 class="font-bold text-sm uppercase text-slate-500 mb-4">Manage Elements</h4>
+                            <div id="adv-items-container" class="space-y-4 mb-6"></div>
+                            <button class="cmp-button cmp-button--outline cmp-button--small w-full" onclick="advAddItem()">
+                                <i class="fi fi-rs-plus"></i> Add Block
+                            </button>
+                        </div>
+                        <div class="lg:col-span-7 bg-white border border-slate-200 p-6 flex flex-col h-[650px]">
+                            <h4 class="font-bold text-sm uppercase text-slate-500 mb-4">Preview Sandbox</h4>
+                            <div id="adv-preview" class="w-full flex-1 overflow-x-hidden overflow-y-auto bg-slate-50 p-6 border border-slate-100"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="adv-tab-icones" class="p-6 hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <div class="lg:col-span-4 bg-slate-50 p-6 border border-slate-200">
+                            <h4 class="font-bold text-sm uppercase text-slate-500 mb-4">Icon Gallery</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="text-xs font-bold block mb-1">Search Icon</label>
+                                    <div class="relative">
+                                        <i class="fi fi-rs-search absolute left-3 top-3 text-slate-400"></i>
+                                        <input type="text" id="adv-icon-search" placeholder="Ex: star..." class="builder-input pl-10" onkeyup="advFilterIcons()">
+                                    </div>
+                                </div>
+                                <hr class="border-slate-200">
+                                <div>
+                                    <label class="text-xs font-bold block mb-1">Icon Color</label>
+                                    <div class="flex gap-2">
+                                        <input type="color" id="adv-icon-color-picker" value="#33CC99" class="w-12 h-10 border-0 p-0 cursor-pointer" onchange="advRenderIcons()">
+                                        <select id="adv-icon-color-select" class="builder-input flex-1" onchange="document.getElementById('adv-icon-color-picker').value = this.value; advRenderIcons();">
+                                            <option value="#33CC99">Main Green</option>
+                                            <option value="#0A00BD">Polygon Blue</option>
+                                            <option value="#FF3399">Main Pink</option>
+                                            <option value="#F5C042">Yellow</option>
+                                            <option value="#ED6F2D">Orange</option>
+                                            <option value="#7E1C88">Purple</option>
+                                            <option value="#000000">Black</option>
+                                            <option value="#FFFFFF">White</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-bold block mb-1">PNG Resolution (px)</label>
+                                    <input type="number" id="adv-icon-size" value="512" min="16" max="1024" class="builder-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-8 bg-white border border-slate-200 p-6 h-[500px] overflow-y-auto">
+                            <h4 class="font-bold text-sm uppercase text-slate-500 mb-4">Results</h4>
+                            <div id="adv-icon-grid" class="flex flex-wrap gap-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="template-lp" class="ds-section poligono-app !bg-transparent !border-0 !p-0">
+            <div class="mb-4 bg-white p-6 border border-slate-200 rounded-none shadow-sm">
+                <h2 class="ds-title text-brand-blue !border-0 !mb-0">Template: Landing Page (Lorem Ipsum)</h2>
+                <p class="ds-subtitle mb-0">Lead capture page example with 10 sections using the Design System.</p>
+            </div>
+            
+            <div class="border border-slate-300 shadow-2xl bg-white overflow-hidden max-w-[1440px] mx-auto w-full font-sans relative">
+                
+                <header class="bg-brand-blue py-4 px-6 md:px-12 flex justify-between items-center sticky top-0 z-50 shadow-md">
+                    <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/cd5dd249eae428fb12b9731ecb81187dd3b96332/logos/logo-poligono-white%201.png" alt="Polygon" class="h-8 md:h-10 object-contain">
+                    <a href="#form-section" class="cmp-button cmp-button--light cmp-button--small hidden md:flex">
+                        <span class="cmp-button__inner">Download</span>
+                    </a>
+                </header>
+
+                <section class="bg-slate-50 border-b-4 border-brand-green py-16 px-6 md:px-12 relative" style="background-image: url('https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/072f8540fa00def5745e3a41d0efba7aadeaec53/padroes/Rectangle-1.png'); background-size: cover; background-position: center;">
+                    <div class="bg-white/90 absolute inset-0 z-0"></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 max-w-6xl mx-auto">
+                        <div>
+                            <p class="tipo-h6 mb-2 text-brand-pink">Lorem Ipsum Dolor</p>
+                            <h1 class="tipo-h1 mb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h1>
+                            <p class="tipo-p mb-6 text-lg">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            <ul class="space-y-4 mb-8">
+                                <li class="flex items-start gap-3">
+                                    <i class="fi fi-rs-check text-brand-green mt-1 text-xl"></i>
+                                    <span class="tipo-p !mb-0"><strong>Applied Innovation:</strong> Duis aute irure dolor in reprehenderit.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fi fi-rs-check text-brand-green mt-1 text-xl"></i>
+                                    <span class="tipo-p !mb-0"><strong>Flexibility:</strong> Excepteur sint occaecat cupidatat non proident.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div id="form-section" class="bg-white p-8 border border-slate-200 shadow-[8px_8px_0px_#FF3399]">
+                            <h3 class="tipo-h4 text-center mb-6 text-brand-blue">Fill out to access the material</h3>
+                            <form onsubmit="event.preventDefault(); alert('Form submitted!');" class="space-y-4">
+                                <div class="cmp-field !mb-0">
+                                    <input type="text" id="lp-nome" class="cmp-field__input" placeholder=" ">
+                                    <label for="lp-nome" class="cmp-field__label">Full Name</label>
+                                </div>
+                                <div class="cmp-field !mb-0">
+                                    <input type="email" id="lp-email" class="cmp-field__input" placeholder=" ">
+                                    <label for="lp-email" class="cmp-field__label">Work Email</label>
+                                </div>
+                                <div class="cmp-field !mb-0">
+                                    <select id="lp-cargo" class="cmp-field__input bg-white" required>
+                                        <option value="" disabled selected hidden></option>
+                                        <option value="diretor">Principal</option>
+                                        <option value="coordenador">Coordinator</option>
+                                        <option value="professor">Teacher</option>
+                                    </select>
+                                    <label for="lp-cargo" class="cmp-field__label" style="top: -0.6rem; font-size: 0.75rem; font-weight: 600; color: #0A00BD;">Role at School</label>
+                                </div>
+                                <button type="submit" class="cmp-button cmp-button--cta w-full mt-4 text-lg">
+                                    <i class="fi fi-rs-download"></i> Download now
+                                </button>
+                                <p class="text-xs text-center text-slate-500 mt-4">By filling this out, you agree to our <a href="#" class="underline text-brand-blue font-bold">Privacy Policy</a>.</p>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="py-12 bg-white border-b border-slate-100">
+                    <div class="max-w-6xl mx-auto px-6 text-center">
+                        <p class="tipo-h6 text-slate-400 mb-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                        <div class="flex flex-wrap justify-center gap-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                            <svg width="60" height="60" viewBox="0 0 100 100" fill="var(--color-primary)"><polygon points="50,10 90,90 10,90"/></svg>
+                            <svg width="60" height="60" viewBox="0 0 100 100" fill="var(--color-secondary)"><rect x="15" y="15" width="70" height="70"/></svg>
+                            <svg width="60" height="60" viewBox="0 0 100 100" fill="var(--color-tertiary)"><polygon points="50,5 95,38 78,95 22,95 5,38"/></svg>
+                            <svg width="60" height="60" viewBox="0 0 100 100" fill="#F5C042"><polygon points="50,5 95,28 95,72 50,95 5,72 5,28"/></svg>
+                            <svg width="60" height="60" viewBox="0 0 100 100" fill="#7E1C88"><polygon points="50,0 75,6.7 93.3,25 100,50 93.3,75 75,93.3 50,100 25,93.3 6.7,75 0,50 6.7,25 25,6.7"/></svg>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="py-20 px-6 md:px-12 bg-white relative overflow-hidden">
+                    <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/refs/heads/main/poligonos%20irregulares/Asset%201.svg" class="absolute -right-20 top-10 w-64 h-64 opacity-20 animate-pulse" alt="">
+                    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <div class="order-2 lg:order-1 relative">
+                            <div class="border-4 border-brand-green p-2 shadow-[12px_12px_0px_#0A00BD] bg-white">
+                                <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80" alt="Students" class="w-full h-auto grayscale-[20%]">
+                            </div>
+                            <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/refs/heads/main/poligonos%20irregulares/Asset%203.svg" class="absolute -bottom-10 -left-10 w-32 h-32" alt="">
+                        </div>
+                        <div class="order-1 lg:order-2">
+                            <p class="tipo-h6 text-brand-green">Lorem Ipsum Sit</p>
+                            <h2 class="tipo-h2 mb-6">Sed do eiusmod tempor incididunt ut labore</h2>
+                            <p class="tipo-p mb-4">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <p class="tipo-p mb-8">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem.</p>
+                            <a href="#form-section" class="cmp-link-arrow">Access the material now</a>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="py-20 px-6 md:px-12 bg-slate-50 border-y border-slate-200">
+                    <div class="max-w-6xl mx-auto">
+                        <div class="text-center max-w-3xl mx-auto mb-16">
+                            <h2 class="tipo-h2">Ut enim ad minim veniam?</h2>
+                            <p class="tipo-p">Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="cmp-card-media hover:border-brand-primary hover:shadow-[8px_8px_0px_#0A00BD]">
+                                <div class="cmp-card-media__hdr bg-white">
+                                    <i class="fi fi-rs-book-alt text-5xl text-brand-primary mb-6 block"></i>
+                                    <h3 class="tipo-h4 text-brand-primary">Lorem Ipsum 1</h3>
+                                    <p class="tipo-p flex-1">Effective approaches to implement active methodologies that place the student as the protagonist of their process.</p>
+                                </div>
+                            </div>
+                            <div class="cmp-card-media hover:border-brand-green hover:shadow-[8px_8px_0px_#33CC99]">
+                                <div class="cmp-card-media__hdr bg-white">
+                                    <i class="fi fi-rs-puzzle-piece text-5xl text-brand-green mb-6 block"></i>
+                                    <h3 class="tipo-h4 text-brand-green">Lorem Ipsum 2</h3>
+                                    <p class="tipo-p flex-1">Curricular adaptation tactics for different educational levels, ensuring total alignment with the BNCC.</p>
+                                </div>
+                            </div>
+                            <div class="cmp-card-media hover:border-brand-pink hover:shadow-[8px_8px_0px_#FF3399]">
+                                <div class="cmp-card-media__hdr bg-white">
+                                    <i class="fi fi-rs-rocket text-5xl text-brand-pink mb-6 block"></i>
+                                    <h3 class="tipo-h4 text-brand-pink">Lorem Ipsum 3</h3>
+                                    <p class="tipo-p flex-1">The correct implementation of digital tools to decrease the bureaucratic load on teachers and managers.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="py-20 px-6 md:px-12 bg-white">
+                    <div class="max-w-4xl mx-auto">
+                        <h2 class="tipo-h2 text-center mb-12">Excepteur sint occaecat</h2>
+                        
+                        <div class="cmp-tabs border border-slate-200 shadow-sm" id="lp-tabs-container">
+                            <div class="cmp-tabs__nav flex border-b border-slate-200 bg-slate-50 overflow-x-auto">
+                                <button class="lp-tab-btn flex-1 py-4 px-6 font-bold text-slate-500 border-b-4 border-transparent hover:bg-white hover:text-brand-blue transition-colors focus:outline-none !border-brand-blue !text-brand-blue" data-idx="0">Tab 1</button>
+                                <button class="lp-tab-btn flex-1 py-4 px-6 font-bold text-slate-500 border-b-4 border-transparent hover:bg-white hover:text-brand-green transition-colors focus:outline-none" data-idx="1">Tab 2</button>
+                                <button class="lp-tab-btn flex-1 py-4 px-6 font-bold text-slate-500 border-b-4 border-transparent hover:bg-white hover:text-brand-pink transition-colors focus:outline-none" data-idx="2">Tab 3</button>
+                            </div>
+                            <div class="cmp-tabs__content bg-white p-8 md:p-12">
+                                <div class="lp-tab-pane block animate-[fadeIn_0.3s_ease]">
+                                    <div class="flex items-center gap-6 mb-4">
+                                        <div class="w-16 h-16 bg-brand-blue text-white flex items-center justify-center text-3xl"><i class="fi fi-rs-briefcase"></i></div>
+                                        <h4 class="tipo-h3 text-brand-blue !mb-0">Duis aute irure</h4>
+                                    </div>
+                                    <p class="tipo-p text-lg">Discover how to optimize your school's costs while maintaining top-notch education. The material presents strategies for reducing bureaucracy and increasing enrollment retention through pedagogical innovation.</p>
+                                </div>
+                                <div class="lp-tab-pane hidden animate-[fadeIn_0.3s_ease]">
+                                    <div class="flex items-center gap-6 mb-4">
+                                        <div class="w-16 h-16 bg-brand-green text-white flex items-center justify-center text-3xl"><i class="fi fi-rs-users"></i></div>
+                                        <h4 class="tipo-h3 text-brand-green !mb-0">Voluptate velit esse</h4>
+                                    </div>
+                                    <p class="tipo-p text-lg">Aligning the teaching staff with the BNCC has never been easier. Access assessment rubrics, suggestions for extracurricular activities, and flexible plans to apply immediately.</p>
+                                </div>
+                                <div class="lp-tab-pane hidden animate-[fadeIn_0.3s_ease]">
+                                    <div class="flex items-center gap-6 mb-4">
+                                        <div class="w-16 h-16 bg-brand-pink text-white flex items-center justify-center text-3xl"><i class="fi fi-rs-chalkboard-user"></i></div>
+                                        <h4 class="tipo-h3 text-brand-pink !mb-0">Cillum dolore eu</h4>
+                                    </div>
+                                    <p class="tipo-p text-lg">More time for what matters: teaching. Our guide features classroom dynamics, ready-to-use active methodologies, and technological tools to engage Generation Alpha.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="py-24 px-6 md:px-12 bg-brand-blue text-white text-center relative overflow-hidden" style="background-image: url('https://github.com/Design-8DHubify/sistema-poligono/blob/072f8540fa00def5745e3a41d0efba7aadeaec53/padroes/Rectangle-2.png?raw=true'); background-blend-mode: soft-light; background-size: cover;">
+                    <div class="relative z-10 max-w-4xl mx-auto">
+                        <i class="fi fi-rs-quote-right text-6xl text-brand-green mb-6 opacity-50"></i>
+                        <h2 class="text-3xl md:text-5xl font-extrabold leading-tight mb-8">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."</h2>
+                        <p class="text-xl font-bold text-brand-green uppercase tracking-widest">Lorem Ipsum</p>
+                        <p class="text-md text-slate-300">Duis Aute Irure</p>
+                    </div>
+                </section>
+
+                <section class="py-20 px-6 md:px-12 bg-slate-50">
+                    <div class="max-w-6xl mx-auto">
+                        <h2 class="tipo-h2 text-center mb-12">Fugiat nulla pariatur</h2>
+                        
+                        <div class="relative w-full pb-12 overflow-hidden pt-4" id="lp-carousel">
+                            <div class="flex transition-transform duration-500 ease-in-out" id="lp-carousel-track">
+                                <div class="flex-none w-full md:w-1/2 lg:w-1/3 px-4">
+                                    <div class="bg-white p-8 border-t-4 border-brand-primary shadow-sm h-full flex flex-col">
+                                        <h4 class="tipo-h5 text-brand-primary">Sunt in culpa qui</h4>
+                                        <p class="tipo-p flex-1 text-sm italic">"Generation Alpha requires short visual stimuli and gamified learning blocks to maintain focus..."</p>
+                                        <span class="text-xs font-bold text-slate-400">Page 12</span>
+                                    </div>
+                                </div>
+                                <div class="flex-none w-full md:w-1/2 lg:w-1/3 px-4">
+                                    <div class="bg-white p-8 border-t-4 border-brand-green shadow-sm h-full flex flex-col">
+                                        <h4 class="tipo-h5 text-brand-green">Officia deserunt</h4>
+                                        <p class="tipo-p flex-1 text-sm italic">"Beyond preparing for exams, today's school must guarantee mental well-being and resilience..."</p>
+                                        <span class="text-xs font-bold text-slate-400">Page 24</span>
+                                    </div>
+                                </div>
+                                <div class="flex-none w-full md:w-1/2 lg:w-1/3 px-4">
+                                    <div class="bg-white p-8 border-t-4 border-brand-pink shadow-sm h-full flex flex-col">
+                                        <h4 class="tipo-h5 text-brand-pink">Mollit anim id</h4>
+                                        <p class="tipo-p flex-1 text-sm italic">"General skills can be interconnected through easily executed interdisciplinary projects..."</p>
+                                        <span class="text-xs font-bold text-slate-400">Page 38</span>
+                                    </div>
+                                </div>
+                                <div class="flex-none w-full md:w-1/2 lg:w-1/3 px-4">
+                                    <div class="bg-white p-8 border-t-4 border-brand-yellow shadow-sm h-full flex flex-col">
+                                        <h4 class="tipo-h5 text-brand-yellow">Perspiciatis unde</h4>
+                                        <p class="tipo-p flex-1 text-sm italic">"Direct communication tools bring those responsible for education closer to the school routine..."</p>
+                                        <span class="text-xs font-bold text-slate-400">Page 45</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="absolute bottom-0 left-0 right-0 flex justify-center gap-4">
+                                <button id="lp-car-prev" class="w-10 h-10 bg-brand-blue text-white hover:bg-brand-pink transition-colors focus:outline-none flex items-center justify-center"><i class="fi fi-rs-angle-left"></i></button>
+                                <button id="lp-car-next" class="w-10 h-10 bg-brand-blue text-white hover:bg-brand-pink transition-colors focus:outline-none flex items-center justify-center"><i class="fi fi-rs-angle-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="py-20 px-6 md:px-12 bg-white">
+                    <div class="max-w-3xl mx-auto">
+                        <h2 class="tipo-h2 text-center mb-10">Omnis iste natus error</h2>
+                        
+                        <details class="mb-4 border border-slate-200 bg-slate-50 group">
+                            <summary class="p-6 font-bold cursor-pointer list-none flex justify-between items-center text-brand-blue text-lg hover:bg-slate-100 transition-colors">
+                                Voluptatem accusantium doloremque laudantium?
+                                <i class="fi fi-rs-angle-down group-open:rotate-180 transition-transform text-brand-tertiary"></i>
+                            </summary>
+                            <div class="p-6 pt-0 text-slate-700 bg-slate-50 border-t border-slate-200 mt-4 leading-relaxed">
+                                <p class="mb-0">Yes! The material is 100% free. Simply fill out the form at the top of the page and you will receive the PDF file directly in your work email.</p>
+                            </div>
+                        </details>
+
+                        <details class="mb-4 border border-slate-200 bg-slate-50 group">
+                            <summary class="p-6 font-bold cursor-pointer list-none flex justify-between items-center text-brand-blue text-lg hover:bg-slate-100 transition-colors">
+                                Totam rem aperiam, eaque ipsa quae ab illo?
+                                <i class="fi fi-rs-angle-down group-open:rotate-180 transition-transform text-brand-tertiary"></i>
+                            </summary>
+                            <div class="p-6 pt-0 text-slate-700 bg-slate-50 border-t border-slate-200 mt-4 leading-relaxed">
+                                <p class="mb-0">Absolutely. Our goal is for knowledge to reach as many educators as possible. Feel free to share the PDF internally.</p>
+                            </div>
+                        </details>
+
+                        <details class="mb-4 border border-slate-200 bg-slate-50 group">
+                            <summary class="p-6 font-bold cursor-pointer list-none flex justify-between items-center text-brand-blue text-lg hover:bg-slate-100 transition-colors">
+                                Inventore veritatis et quasi architecto beatae vitae?
+                                <i class="fi fi-rs-angle-down group-open:rotate-180 transition-transform text-brand-tertiary"></i>
+                            </summary>
+                            <div class="p-6 pt-0 text-slate-700 bg-slate-50 border-t border-slate-200 mt-4 leading-relaxed">
+                                <p class="mb-0">Polygon is an educational system designed for today's reality. We provide modern teaching materials, intuitive platforms, and complete pedagogical assistance.</p>
+                            </div>
+                        </details>
+                    </div>
+                </section>
+
+                <section class="bg-brand-pink py-20 px-6 text-center text-white relative overflow-hidden" style="background-image: url('https://github.com/Design-8DHubify/sistema-poligono/blob/072f8540fa00def5745e3a41d0efba7aadeaec53/padroes/Rectangle-3.png?raw=true'); background-blend-mode: overlay; background-size: cover;">
+                    <div class="relative z-10 max-w-2xl mx-auto">
+                        <h2 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">Neque porro quisquam est, qui dolorem ipsum!</h2>
+                        <p class="text-lg mb-10 font-semibold opacity-90">Quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt.</p>
+                        <a href="#form-section" class="inline-flex items-center justify-center font-bold px-10 py-5 bg-white text-brand-pink border-2 border-white hover:bg-brand-blue hover:text-white hover:border-brand-blue transition-all duration-300 text-xl shadow-xl uppercase tracking-wide">
+                            Download now
+                        </a>
+                    </div>
+                </section>
+
+                <footer class="bg-slate-950 py-12 px-8 border-t-8 border-brand-blue">
+                    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div class="text-white opacity-50">
+                            <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/cd5dd249eae428fb12b9731ecb81187dd3b96332/logos/logo-poligono-white%201.png" alt="Polygon" class="h-8 md:h-10 object-contain grayscale">
+                        </div>
+                        <p class="text-slate-500 text-sm text-center md:text-left">© 2024 Polygon Education System.<br>Education of the future for schools of the present.</p>
+                        <div class="flex gap-4">
+                            <a href="#" class="w-10 h-10 bg-slate-800 text-slate-400 flex items-center justify-center hover:bg-brand-blue hover:text-white transition-colors"><i class="fi fi-rs-basketball"></i></a>
+                            <a href="#" class="w-10 h-10 bg-slate-800 text-slate-400 flex items-center justify-center hover:bg-brand-pink hover:text-white transition-colors"><i class="fi fi-rs-camera"></i></a>
+                        </div>
+                    </div>
+                </footer>
+
+                <script>
+                    // Initialize LP Template Tabs
+                    const lpTabs = document.querySelectorAll('.lp-tab-btn');
+                    const lpPanes = document.querySelectorAll('.lp-tab-pane');
+                    
+                    if(lpTabs.length > 0) {
+                        lpTabs.forEach(btn => {
+                            btn.addEventListener('click', () => {
+                                const idx = btn.getAttribute('data-idx');
+                                
+                                lpTabs.forEach(t => {
+                                    t.classList.remove('!border-brand-blue', '!text-brand-blue', '!border-brand-green', '!text-brand-green', '!border-brand-pink', '!text-brand-pink');
+                                    t.classList.add('border-transparent');
+                                });
+                                
+                                let colorClassBorder = '!border-brand-blue';
+                                let colorClassText = '!text-brand-blue';
+                                if(idx === "1") { colorClassBorder = '!border-brand-green'; colorClassText = '!text-brand-green'; }
+                                if(idx === "2") { colorClassBorder = '!border-brand-pink'; colorClassText = '!text-brand-pink'; }
+                                
+                                btn.classList.remove('border-transparent');
+                                btn.classList.add(colorClassBorder, colorClassText);
+
+                                lpPanes.forEach(p => { p.classList.add('hidden'); p.classList.remove('block'); });
+                                lpPanes[idx].classList.remove('hidden');
+                                lpPanes[idx].classList.add('block');
+                            });
+                        });
+                    }
+
+                    // Initialize LP Template Carousel
+                    const lpTrack = document.getElementById('lp-carousel-track');
+                    if(lpTrack) {
+                        const items = lpTrack.children;
+                        const btnPrev = document.getElementById('lp-car-prev');
+                        const btnNext = document.getElementById('lp-car-next');
+                        let lpIdx = 0;
+
+                        function updateLpCarousel() {
+                            let itemsPerView = 1;
+                            const w = document.getElementById('lp-carousel').clientWidth;
+                            if(w >= 1024) itemsPerView = 3;
+                            else if(w >= 768) itemsPerView = 2;
+
+                            const max = Math.max(0, items.length - itemsPerView);
+                            if(lpIdx > max) lpIdx = max;
+
+                            const itemW = items[0].offsetWidth;
+                            lpTrack.style.transform = `translateX(-${lpIdx * itemW}px)`;
+                            
+                            btnPrev.style.opacity = lpIdx === 0 ? '0.3' : '1';
+                            btnNext.style.opacity = lpIdx >= max ? '0.3' : '1';
+                        }
+
+                        btnPrev.addEventListener('click', () => { if(lpIdx > 0) { lpIdx--; updateLpCarousel(); } });
+                        btnNext.addEventListener('click', () => {
+                            let v = 1; const w = document.getElementById('lp-carousel').clientWidth;
+                            if(w >= 1024) v = 3; else if(w >= 768) v = 2;
+                            if(lpIdx < Math.max(0, items.length - v)) { lpIdx++; updateLpCarousel(); }
+                        });
+
+                        window.addEventListener('resize', updateLpCarousel);
+                        setTimeout(updateLpCarousel, 200);
+                    }
+                </script>
+            </div>
+        </section>
+
+        <section id="template-ty" class="ds-section poligono-app bg-slate-50">
+            <h2 class="ds-title text-brand-green">Template: Thank You Page</h2>
+            <p class="ds-subtitle mb-6">Simple and direct thank you page for delivering Lorem Ipsum rich material.</p>
+            
+            <div class="border border-slate-300 shadow-2xl bg-white overflow-hidden max-w-[1440px] mx-auto h-[600px] flex flex-col font-sans">
+                <header class="bg-white py-6 px-8 flex justify-center border-b border-slate-100">
+                    <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/cd5dd249eae428fb12b9731ecb81187dd3b96332/logos/logo-poligono-color%201.png" alt="Polygon" class="h-8 md:h-10 object-contain">
+                </header>
+
+                <section class="flex-1 flex flex-col items-center justify-center text-center py-16 px-6 md:px-8 bg-[url('https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/072f8540fa00def5745e3a41d0efba7aadeaec53/padroes/Rectangle.png')] bg-cover bg-center">
+                    <div class="bg-white/95 p-8 md:p-12 border border-slate-200 shadow-[8px_8px_0px_#33CC99] max-w-2xl">
+                        <i class="fi fi-rs-check-circle text-6xl text-brand-green mb-6 block"></i>
+                        <h1 class="tipo-h2 mb-4">Lorem ipsum dolor sit amet!</h1>
+                        <p class="tipo-p mb-8 text-lg">Your file <strong>Consectetur Adipiscing Elit</strong> has already been sent to your inbox. If you don't find it in a few minutes, check your Spam folder.</p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <button class="cmp-button cmp-button--cta">
+                                <i class="fi fi-rs-download"></i> Download Direct Copy
+                            </button>
+                            <a href="#" class="cmp-button cmp-button--outline">
+                                Return to Website
+                            </a>
+                        </div>
+                    </div>
+                </section>
+                
+                <footer class="bg-slate-100 py-6 text-center border-t border-slate-200">
+                    <p class="text-slate-500 text-sm">Follow us on our social networks for more news and methodologies.</p>
+                </footer>
+            </div>
+        </section>
+
+        <section id="template-email-1" class="ds-section poligono-app bg-slate-50">
+            <h2 class="ds-title text-brand-blue">Email: Delivery of Rich Material</h2>
+            <p class="ds-subtitle mb-6">Template focused on direct conversion and delivery of magnets (4 folds).</p>
+
+            <div class="bg-slate-200 py-10 flex justify-center font-sans border border-slate-300">
+                <div class="bg-white w-full max-w-[600px] border border-slate-300 mx-4">
+                    
+                    <div class="bg-brand-blue py-6 px-8 text-center">
+                        <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/cd5dd249eae428fb12b9731ecb81187dd3b96332/logos/logo-poligono-white%201.png" alt="Polygon" style="height: 35px; margin: 0 auto; display: block;">
+                    </div>
+
+                    <div class="w-full bg-slate-100 border-b-4 border-brand-green">
+                        <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=600&q=80" alt="Hero" style="width: 100%; display: block;">
+                    </div>
+
+                    <div class="p-8 md:p-10 text-center">
+                        <h2 style="font-family: 'Open Sans', sans-serif; font-size: 24px; font-weight: 800; color: #0A00BD; margin: 0 0 20px 0;">Your e-book has arrived!</h2>
+                        <p style="font-family: 'Open Sans', sans-serif; font-size: 16px; color: #333333; line-height: 1.6; margin: 0 0 20px 0; text-align: left;">Hello <strong>[Name]</strong>,</p>
+                        <p style="font-family: 'Open Sans', sans-serif; font-size: 16px; color: #333333; line-height: 1.6; margin: 0 0 30px 0; text-align: left;">As promised, here is your copy of <em>"Lorem ipsum dolor sit amet"</em>. We hope this material helps transform the reality of your school with active and flexible practices.</p>
+                        
+                        <a href="#" style="display: inline-block; padding: 14px 30px; background-color: #33CC99; color: #FFFFFF; text-decoration: none; font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 16px; border-radius: 0px; text-transform: uppercase;">Access my E-book</a>
+                        
+                        <p style="font-family: 'Open Sans', sans-serif; font-size: 14px; color: #666666; line-height: 1.6; margin: 30px 0 0 0; text-align: left;">If the button doesn't work, copy and paste the link below into your browser:<br><a href="#" style="color: #0A00BD;">https://example-link.com/download</a></p>
+                    </div>
+
+                    <div class="bg-slate-950 p-8 text-center border-t-8 border-brand-pink">
+                        <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/cd5dd249eae428fb12b9731ecb81187dd3b96332/logos/logo-poligono-white%201.png" alt="Polygon" style="height: 25px; margin: 0 auto 20px auto; display: block; opacity: 0.5; filter: grayscale(100%);">
+                        <p style="font-family: 'Open Sans', sans-serif; font-size: 12px; color: #666666; margin: 0 0 10px 0;">© 2024 Polygon Education System.</p>
+                        <p style="font-family: 'Open Sans', sans-serif; font-size: 12px; color: #666666; margin: 0;">You received this email because you are registered in our database. <a href="#" style="color: #666666; text-decoration: underline;">Unsubscribe</a>.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="template-email-2" class="ds-section poligono-app bg-slate-50">
+            <h2 class="ds-title text-brand-green">Email: Newsletter / Relationship</h2>
+            <p class="ds-subtitle mb-6">Template focused on reading articles and monthly news (5 folds).</p>
+
+            <div class="bg-slate-200 py-10 flex justify-center font-sans border border-slate-300">
+                <div class="bg-white w-full max-w-[600px] border border-slate-300 mx-4">
+                    
+                    <div class="bg-white py-6 px-8 text-center border-b-4 border-slate-100">
+                        <img src="https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/cd5dd249eae428fb12b9731ecb81187dd3b96332/logos/logo-poligono-color%201.png" alt="Polygon" style="height: 35px; margin: 0 auto; display: block;">
+                    </div>
+
+                    <div class="p-8 pb-4">
+                        <p style="font-family: 'Open Sans', sans-serif; font-size: 12px; font-weight: 700; color: #33CC99; text-transform: uppercase; margin: 0 0 10px 0;">Highlight of the Month</p>
+                        <h2 style="font-family: 'Open Sans', sans-serif; font-size: 26px; font-weight: 800; color: #0A00BD; margin: 0 0 15px 0; line-height: 1.2;">How to engage Generation Alpha in today's schools</h2>
+                        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80" alt="Highlight" style="width: 100%; display: block; margin-bottom: 20px; border-bottom: 4px solid #FF3399;">
+                        <p style="font-family: 'Open Sans', sans-serif; font-size: 16px; color: #333333; line-height: 1.6; margin: 0 0 20px 0;">Discover the main pedagogical strategies to deal with hyperconnected students and transform the classroom into an environment of real focus and collaboration.</p>
+                        <a href="#" style="color: #0A00BD; font-family: 'Open Sans', sans-serif; font-size: 16px; font-weight: 700; text-decoration: none;">Read full article &rarr;</a>
+                    </div>
+
+                    <div class="p-8 pt-4 bg-white border-b border-slate-200 flex flex-col md:flex-row gap-6">
+                        <div class="flex-1">
+                            <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=300&q=80" alt="Secondary 1" style="width: 100%; display: block; margin-bottom: 15px;">
+                            <h3 style="font-family: 'Open Sans', sans-serif; font-size: 18px; font-weight: 700; color: #333333; margin: 0 0 10px 0; line-height: 1.3;">Efficient School Management</h3>
+                            <p style="font-family: 'Open Sans', sans-serif; font-size: 14px; color: #666666; line-height: 1.5; margin: 0 0 15px 0;">The manager's role and its importance in the future of basic education.</p>
+                            <a href="#" style="color: #FF3399; font-family: 'Open Sans', sans-serif; font-size: 14px; font-weight: 700; text-decoration: none;">Learn more &rarr;</a>
+                        </div>
+                        <div class="flex-1">
+                            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=300&q=80" alt="Secondary 2" style="width: 100%; display: block; margin-bottom: 15px;">
+                            <h3 style="font-family: 'Open Sans', sans-serif; font-size: 18px; font-weight: 700; color: #333333; margin: 0 0 10px 0; line-height: 1.3;">Active Methodologies</h3>
+                            <p style="font-family: 'Open Sans', sans-serif; font-size: 14px; color: #666666; line-height: 1.5; margin: 0 0 15px 0;">Learn the advantages of blended learning and the flipped classroom.</p>
+                            <a href="#" style="color: #33CC99; font-family: 'Open Sans', sans-serif; font-size: 14px; font-weight: 700; text-decoration: none;">Learn more &rarr;</a>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-blue p-10 text-center" style="background-color: #0A00BD; background-image: url('https://raw.githubusercontent.com/Design-8DHubify/sistema-poligono/072f8540fa00def5745e3a41d0efba7aadeaec53/padroes/Rectangle-2.png'); background-size: cover;">
+                        <h2 style="font-family: 'Open Sans', sans-serif; font-size: 24px; font-weight: 800; color: #FFFFFF; margin: 0 0 15px 0;">Become a Partner School</h2>
+                        <p style="font-family: 'Open Sans', sans-serif; font-size: 16px; color: #FFFFFF; line-height: 1.6; margin: 0 0 25px 0; opacity: 0.9;">Talk to one of our consultants and discover how to implement the education of the future in the present.</p>
+                        <a href="#" style="display: inline-block; padding: 14px 30px; background-color: #FFFFFF; color: #0A00BD; text-decoration: none; font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 16px; border-radius: 0px; text-transform: uppercase;">Talk to a Consultant</a>
+                    </div>
+
+                    <div class="bg-slate-100 p-8 text-center border-t border-slate-200">
+                        <p style="font-family: 'Open Sans', sans-serif; font-size: 12px; color: #666666; margin: 0 0 10px 0;">© 2024 Polygon Education System.</p>
+                        <p style="font-family: 'Open Sans', sans-serif; font-size: 12px; color: #666666; margin: 0;">Example Street, 123, City - State<br>Wish to stop receiving our communications? <a href="#" style="color: #666666; text-decoration: underline;">Cancel subscription here</a>.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="template-popups" class="ds-section poligono-app bg-white">
+            <h2 class="ds-title text-brand-pink">Pop-up Templates</h2>
+            <p class="ds-subtitle mb-6">Models to be implemented as overlays in RD Station.</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                
+                <div class="bg-slate-200 p-8 flex items-center justify-center relative min-h-[500px]">
+                    <div class="absolute inset-0 bg-slate-900/50"></div>
+                    <div class="relative bg-white shadow-2xl flex max-w-[700px] w-full border-b-4 border-brand-green">
+                        <button class="absolute top-2 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold">&times;</button>
+                        <div class="w-1/3 hidden md:block bg-slate-100">
+                            <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=400&q=80" alt="Ebook" class="w-full h-full object-cover">
+                        </div>
+                        <div class="w-full md:w-2/3 p-8">
+                            <p class="tipo-h6 text-brand-blue !mb-2">Don't leave yet!</p>
+                            <h3 class="tipo-h3">Take our Free E-book</h3>
+                            <p class="tipo-p text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
+                            <form onsubmit="event.preventDefault();" class="space-y-3 mt-4">
+                                <div class="cmp-field !mb-0">
+                                    <input type="email" class="cmp-field__input !p-2" placeholder="Your best email">
+                                </div>
+                                <button type="submit" class="cmp-button bg-brand-green text-white hover:bg-brand-blue w-full font-bold">
+                                    I want my E-book
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-200 p-8 flex items-center justify-center relative min-h-[500px]">
+                    <div class="absolute inset-0 bg-slate-900/50"></div>
+                    <div class="relative bg-white shadow-[12px_12px_0px_#0A00BD] max-w-[450px] w-full p-10 text-center border border-slate-200">
+                        <button class="absolute top-2 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold">&times;</button>
+                        <div class="w-16 h-16 bg-brand-pink text-white rounded-none flex items-center justify-center text-3xl mx-auto mb-6">
+                            <i class="fi fi-rs-bell"></i>
+                        </div>
+                        <h3 class="tipo-h3">Limited Spots!</h3>
+                        <p class="tipo-p">Access the exclusive masterclass on Active Methodologies now before it goes offline.</p>
+                        <button class="cmp-button cmp-button--cta w-full mt-2">
+                            Secure my Spot
+                        </button>
+                        <p class="text-xs text-slate-400 mt-4 cursor-pointer hover:underline">No, thanks. I want to continue on the site.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-800 text-white px-4 py-3 opacity-0 transition-opacity duration-300 !rounded-none pointer-events-none z-50 shadow-lg font-bold flex items-center gap-2">
+        <i class="fi fi-rs-check-circle"></i> <span id="toast-msg">Copied successfully!</span>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. GENERAL UTILITIES AND MENU SCROLLSPY
+        // ==========================================
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('opacity-0');
+            setTimeout(() => toast.classList.add('opacity-0'), 3000);
+        }
+
+        function copyToClipboard(text, successMsg) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast(successMsg || 'Copied successfully!');
+            } catch (err) {
+                console.error('Error copying', err);
+                alert('Error trying to copy the code.');
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+
+        window.copyCSSGlobal = function() {
+            copyToClipboard(document.getElementById('css-global-code').innerText, 'Global CSS Copied!');
+        }
+
+        window.copyColor = function(hex) {
+            copyToClipboard(hex, 'Color copied: ' + hex);
+        }
+
+        // ScrollSpy Logic (IntersectionObserver)
+        document.addEventListener("DOMContentLoaded", () => {
+            const sections = document.querySelectorAll('.ds-section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-10% 0px -80% 0px',
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === '#' + id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => observer.observe(section));
+        });
+
+        // ==========================================
+        // 2. BASIC BUILDER AND GENERAL CONTROLS
+        // ==========================================
+        let builderItems = [
+            { id: 1, title: 'Education of the Future', desc: 'We build methodologies based on real, applicable 21st-century learning.', icon: 'fi-rs-graduation-cap', color: '#0A00BD' },
+            { id: 2, title: 'Flexibility', desc: 'Adaptable modules that respect the individuality of each student and school.', icon: 'fi-rs-puzzle-piece', color: '#33CC99' }
+        ];
+
+        const colorOptions = [
+            { label: 'Polygon Blue', value: '#0A00BD' },
+            { label: 'Main Green', value: '#33CC99' },
+            { label: 'Main Pink', value: '#FF3399' },
+            { label: 'Support Yellow', value: '#F5C042' },
+            { label: 'Support Orange', value: '#ED6F2D' },
+            { label: 'Support Purple', value: '#7E1C88' }
+        ];
+
+        function renderBuilderControls() {
+            const container = document.getElementById('builder-items-container');
+            if(!container) return;
+            container.innerHTML = '';
+            builderItems.forEach((item, index) => {
+                let colorSelectOptions = colorOptions.map(c => `<option value="${c.value}" ${item.color === c.value ? 'selected' : ''}>${c.label}</option>`).join('');
+                container.innerHTML += `
+                    <div class="bg-white p-4 border border-slate-200 relative shadow-sm">
+                        <button class="absolute top-2 right-2 text-red-500 hover:text-red-700" onclick="removeBuilderItem(${item.id})"><i class="fi fi-rs-trash"></i></button>
+                        <p class="text-xs font-bold text-slate-400 mb-3">CARD ${index + 1}</p>
+                        <div class="space-y-3">
+                            <div><label class="text-xs text-slate-600 font-bold block mb-1">Title</label><input type="text" class="builder-input" value="${item.title}" onkeyup="updateBuilderItem(${item.id}, 'title', this.value)"></div>
+                            <div><label class="text-xs text-slate-600 font-bold block mb-1">Description</label><textarea class="builder-input text-sm" rows="2" onkeyup="updateBuilderItem(${item.id}, 'desc', this.value)">${item.desc}</textarea></div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><label class="text-xs text-slate-600 font-bold block mb-1">Icon (Flaticon)</label><input type="text" class="builder-input" value="${item.icon}" onkeyup="updateBuilderItem(${item.id}, 'icon', this.value)"></div>
+                                <div><label class="text-xs text-slate-600 font-bold block mb-1">Color</label><select class="builder-input" onchange="updateBuilderItem(${item.id}, 'color', this.value)">${colorSelectOptions}</select></div>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+            renderBuilderPreview();
+        }
+
+        window.updateBuilderItem = function(id, field, value) {
+            const item = builderItems.find(i => i.id === id);
+            if (item) { item[field] = value; renderBuilderPreview(); }
+        }
+
+        window.addBuilderItem = function() {
+            builderItems.push({ id: Date.now(), title: 'New Title', desc: 'Description.', icon: 'fi-rs-star', color: '#0A00BD' });
+            renderBuilderControls();
+        }
+
+        window.removeBuilderItem = function(id) {
+            builderItems = builderItems.filter(i => i.id !== id);
+            renderBuilderControls();
+        }
+
+        function getGeneratedHTML() {
+            let cardsHTML = builderItems.map(item => `
+        <div class="rd-card" onmouseover="this.style.borderColor='${item.color}'; this.style.boxShadow='8px 8px 0px ${item.color}'" onmouseout="this.style.borderColor='#E7E7E7'; this.style.boxShadow='none'">
+            <i class="fi ${item.icon} rd-card-icon" style="color: ${item.color};"></i>
+            <h4 class="rd-card-title">${item.title}</h4>
+            <p class="rd-card-desc">${item.desc}</p>
+        </div>`).join('');
+            return `<style>
+  .rd-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .rd-card { padding: 24px; border: 1px solid #E7E7E7; background: #FFF; transition: all 0.3s ease; border-radius: 0px; cursor: default; }
+  .rd-card:hover { transform: translateY(-5px); }
+  .rd-card-icon { font-size: 36px; display: block; margin-bottom: 16px; }
+  .rd-card-title { font-family: 'Open Sans', sans-serif; font-size: 20px; font-weight: 700; color: #333; margin: 0 0 12px 0; line-height: 1.3; }
+  .rd-card-desc { font-family: 'Open Sans', sans-serif; font-size: 16px; color: #666; margin: 0; line-height: 1.6; }
+</style>
+<div class="rd-cards-grid">\n${cardsHTML}\n</div>`;
+        }
+
+        function renderBuilderPreview() {
+            const el = document.getElementById('builder-preview');
+            if(el) {
+                el.innerHTML = getGeneratedHTML();
+                Array.from(el.querySelectorAll('script')).forEach(s => {
+                    const newScript = document.createElement('script');
+                    newScript.text = s.text;
+                    document.body.appendChild(newScript).parentNode.removeChild(newScript);
+                });
+            }
+        }
+
+        window.copyBuilderHTML = function() {
+            copyToClipboard(getGeneratedHTML(), 'HTML Copied successfully!');
+        }
+
+        // ==========================================
+        // 3. ADVANCED BUILDER AND PRO ICONS
+        // ==========================================
+        window.switchAdvTab = function(tabName) {
+            document.querySelectorAll('.builder-tab-adv').forEach(t => t.classList.remove('active'));
+            const comp = document.getElementById('adv-tab-componentes');
+            const ico = document.getElementById('adv-tab-icones');
+            if(comp) comp.style.display = 'none';
+            if(ico) ico.style.display = 'none';
+            
+            if(tabName === 'componentes') {
+                const b = document.querySelectorAll('.builder-tab-adv')[0];
+                if(b) b.classList.add('active');
+                if(comp) {
+                    comp.style.display = 'block';
+                    advRenderControls();
+                }
+            } else {
+                const b = document.querySelectorAll('.builder-tab-adv')[1];
+                if(b) b.classList.add('active');
+                if(ico) {
+                    ico.style.display = 'block';
+                    advRenderIcons();
+                }
+            }
+        }
+
+        let advCurrentType = 'tabs';
+        let advState = {
+            tabs: [
+                { id: 1, title: 'Students', desc: 'Access to all material in an interactive and immersive way.', icon: 'fi-rs-users', color: '#0A00BD', image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=600', ctaText: 'See Portal', ctaLink: '#', ctaTarget: '_blank' },
+                { id: 2, title: 'Teachers', desc: 'Grading and classroom management tools.', icon: 'fi-rs-chalkboard-user', color: '#33CC99', image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=600', ctaText: 'Access Management', ctaLink: '#', ctaTarget: '_blank' }
+            ],
+            cards: [
+                { id: 1, title: 'Innovation', desc: 'Learn more about the advantages of blended learning.', icon: 'fi-rs-rocket', color: '#33CC99', ctaText: 'Read more', ctaLink: '#', ctaTarget: '_blank' },
+                { id: 2, title: 'Management', desc: 'The role of the manager and their importance in the future.', icon: 'fi-rs-chart-pie-alt', color: '#0A00BD', ctaText: 'Access', ctaLink: '#', ctaTarget: '_self' }
+            ],
+            accordion: [
+                { id: 1, title: 'What is the implementation deadline?', desc: 'Implementation takes an average of 30 days.' },
+                { id: 2, title: 'Does it have integration with systems?', desc: 'Yes, through secure and modern APIs.' }
+            ],
+            carousel: [
+                { id: 1, title: 'Active Methodologies', desc: 'Blended learning and PBL in focus.', color: '#33CC99', ctaText: 'Learn More', ctaLink: '#', ctaTarget: '_blank' },
+                { id: 2, title: 'New High School', desc: 'Complete formative itineraries.', color: '#FF3399', ctaText: 'Learn More', ctaLink: '#', ctaTarget: '_blank' },
+                { id: 3, title: 'Early Childhood Education', desc: 'Playfulness and learning.', color: '#0A00BD', ctaText: 'Learn More', ctaLink: '#', ctaTarget: '_blank' }
+            ]
+        };
+
+        const advColors = [
+            { label: 'Main Green', value: '#33CC99' },
+            { label: 'Polygon Blue', value: '#0A00BD' },
+            { label: 'Main Pink', value: '#FF3399' },
+            { label: 'Support Yellow', value: '#F5C042' }
+        ];
+
+        window.advChangeComponentType = function() {
+            advCurrentType = document.getElementById('adv-component-type').value;
+            advRenderControls();
+        }
+
+        window.advRenderControls = function() {
+            const container = document.getElementById('adv-items-container');
+            if(!container) return;
+            container.innerHTML = '';
+            const items = advState[advCurrentType];
+
+            items.forEach((item, index) => {
+                let colorHtml = ''; let iconHtml = ''; let imageHtml = ''; let ctaHtml = '';
+                if(item.color !== undefined) {
+                    const opts = advColors.map(c => `<option value="${c.value}" ${item.color === c.value ? 'selected' : ''}>${c.label}</option>`).join('');
+                    colorHtml = `<div><label class="text-xs font-bold block mb-1">Color</label><select class="builder-input" onchange="advUpdateItem(${item.id}, 'color', this.value)">${opts}</select></div>`;
+                }
+                if(item.icon !== undefined) {
+                    iconHtml = `<div><label class="text-xs font-bold block mb-1">Icon</label><input type="text" class="builder-input" value="${item.icon}" onkeyup="advUpdateItem(${item.id}, 'icon', this.value)"></div>`;
+                }
+                if(item.image !== undefined) {
+                    imageHtml = `<div class="col-span-2 mt-2"><label class="text-xs font-bold block mb-1">Image URL</label><input type="text" class="builder-input" value="${item.image}" onkeyup="advUpdateItem(${item.id}, 'image', this.value)"></div>`;
+                }
+                if(item.ctaText !== undefined) {
+                    ctaHtml = `
+                        <div class="mt-3 pt-3 border-t border-slate-200">
+                            <label class="text-xs font-bold block mb-1">CTA Button (Empty hides it)</label>
+                            <input type="text" class="builder-input mb-2" value="${item.ctaText}" onkeyup="advUpdateItem(${item.id}, 'ctaText', this.value)">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div><label class="text-xs font-bold block mb-1">URL</label><input type="text" class="builder-input" value="${item.ctaLink}" onkeyup="advUpdateItem(${item.id}, 'ctaLink', this.value)"></div>
+                                <div><label class="text-xs font-bold block mb-1">Target</label><select class="builder-input" onchange="advUpdateItem(${item.id}, 'ctaTarget', this.value)"><option value="_blank" ${item.ctaTarget === '_blank' ? 'selected':''}>New Tab</option><option value="_self" ${item.ctaTarget === '_self' ? 'selected':''}>Same Tab</option></select></div>
+                            </div>
+                        </div>`;
+                }
+
+                container.innerHTML += `
+                    <div class="bg-white p-4 border border-slate-200 relative shadow-sm">
+                        <button class="absolute top-2 right-2 text-red-500 hover:text-red-700" onclick="advRemoveItem(${item.id})"><i class="fi fi-rs-trash"></i></button>
+                        <p class="text-xs font-bold text-slate-400 mb-3">BLOCK ${index + 1}</p>
+                        <label class="text-xs font-bold block mb-1">Title</label>
+                        <input type="text" class="builder-input mb-2" value="${item.title}" onkeyup="advUpdateItem(${item.id}, 'title', this.value)">
+                        <label class="text-xs font-bold block mb-1">Description</label>
+                        <textarea class="builder-input mb-2" rows="2" onkeyup="advUpdateItem(${item.id}, 'desc', this.value)">${item.desc}</textarea>
+                        <div class="grid grid-cols-2 gap-2">${iconHtml}${colorHtml}${imageHtml}</div>
+                        ${ctaHtml}
+                    </div>`;
+            });
+            advRenderPreview();
+        }
+
+        window.advUpdateItem = function(id, field, value) {
+            const item = advState[advCurrentType].find(i => i.id === id);
+            if (item) { item[field] = value; advRenderPreview(); }
+        }
+
+        window.advAddItem = function() {
+            const newItem = { id: Date.now(), title: 'New Block', desc: 'Insert text here.' };
+            if(advCurrentType === 'cards' || advCurrentType === 'carousel' || advCurrentType === 'tabs') {
+                newItem.color = '#33CC99'; newItem.ctaText = 'Click Here'; newItem.ctaLink = '#'; newItem.ctaTarget = '_blank';
+                newItem.icon = 'fi-rs-star';
+            }
+            if(advCurrentType === 'tabs') {
+                newItem.image = 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=600';
+            }
+            advState[advCurrentType].push(newItem);
+            advRenderControls();
+        }
+
+        window.advRemoveItem = function(id) {
+            advState[advCurrentType] = advState[advCurrentType].filter(i => i.id !== id);
+            advRenderControls();
+        }
+
+        function advGetGeneratedCode() {
+            const items = advState[advCurrentType];
+            const uId = Date.now().toString().slice(-6);
+            const scope = 'ds-new-' + advCurrentType + '-' + uId;
+            let html = ''; let css = ''; let js = '';
+
+            if (advCurrentType === 'cards') {
+                css = `
+                .${scope} { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; font-family: 'Open Sans', sans-serif; box-sizing: border-box; }
+                .${scope} .ds-new-card { padding: 24px; border: 1px solid #E7E7E7; background: #FFF; transition: all 0.3s ease; border-radius: 0px; display: flex; flex-direction: column; }
+                .${scope} .ds-new-card:hover { transform: translateY(-5px); }
+                .${scope} .ds-new-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+                .${scope} .ds-new-title { font-size: 20px; font-weight: 700; color: #333; margin: 0 0 12px 0; line-height: 1.3; display: flex; align-items: center; gap: 8px;}
+                .${scope} .ds-new-desc { font-size: 16px; color: #666; margin: 0 0 20px 0; flex-grow: 1; line-height: 1.6; }
+                .${scope} .ds-new-btn { display: inline-block; padding: 12px 24px; font-weight: 700; text-decoration: none; border: 2px solid transparent; text-align: center; transition: 0.3s; border-radius: 0px; }
+                `;
+                html = `<div class="${scope}">` + items.map(i => {
+                    let btn = i.ctaText ? `<a href="${i.ctaLink}" target="${i.ctaTarget}" class="ds-new-btn" style="background-color:${i.color}; color:#FFF;" onmouseover="this.style.backgroundColor='transparent'; this.style.color='${i.color}'; this.style.borderColor='${i.color}'" onmouseout="this.style.backgroundColor='${i.color}'; this.style.color='#FFF'; this.style.borderColor='transparent'">${i.ctaText}</a>` : '';
+                    let icon = i.icon ? `<i class="fi ${i.icon} ds-new-icon" style="color: ${i.color};"></i>` : '';
+                    return `
+                    <div class="ds-new-card" onmouseover="this.style.borderColor='${i.color}'; this.style.boxShadow='8px 8px 0px ${i.color}'" onmouseout="this.style.borderColor='#E7E7E7'; this.style.boxShadow='none'">
+                        ${icon}
+                        <h4 class="ds-new-title">${i.title}</h4>
+                        <p class="ds-new-desc">${i.desc}</p>
+                        ${btn}
+                    </div>`;
+                }).join('') + `</div>`;
+            } 
+            else if (advCurrentType === 'accordion') {
+                css = `
+                .${scope} { font-family: 'Open Sans', sans-serif; box-sizing: border-box; }
+                .${scope} details { border: 1px solid #E7E7E7; margin-bottom: 8px; background: #FFF; border-radius: 0px; }
+                .${scope} summary { padding: 20px; font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: #0A00BD; font-size: 18px; transition: background 0.3s; margin: 0; }
+                .${scope} summary::-webkit-details-marker { display: none; }
+                .${scope} summary:hover { background-color: #F4F4F4; }
+                .${scope} details[open] summary { border-bottom: 1px solid #E7E7E7; background-color: #f8fafc; }
+                .${scope} .ds-new-content { padding: 20px; color: #333; font-size: 16px; line-height: 1.6; }
+                .${scope} p { margin: 0; }
+                `;
+                html = `<div class="${scope}">` + items.map(i => `
+                    <details><summary>${i.title} <span style="font-size:1.5rem; line-height:1;">+</span></summary><div class="ds-new-content"><p>${i.desc}</p></div></details>
+                `).join('') + `</div>`;
+            }
+            else if (advCurrentType === 'tabs') {
+                css = `
+                .${scope} { font-family: 'Open Sans', sans-serif; border: 1px solid #E7E7E7; background: #FFF; border-radius: 0px; box-sizing: border-box; overflow: hidden; }
+                .${scope} .ds-new-tabs-nav { display: flex; border-bottom: 2px solid #E7E7E7; overflow-x: auto; background: #F4F4F4; scrollbar-width: none; }
+                .${scope} .ds-new-tabs-nav::-webkit-scrollbar { display: none; }
+                .${scope} .ds-new-tab-btn { padding: 16px 24px; font-weight: 700; color: #666; border: none; border-bottom: 3px solid transparent; background: transparent; cursor: pointer; font-size: 16px; white-space: nowrap; margin-bottom: -2px; transition: 0.3s; flex-shrink: 0;}
+                .${scope} .ds-new-tab-btn:hover { color: #33CC99; }
+                .${scope} .ds-new-tab-btn.ds-active { color: #0A00BD; border-bottom-color: #0A00BD; background: #FFF; }
+                .${scope} .ds-new-tab-pane { display: none; padding: 32px; }
+                .${scope} .ds-new-tab-pane.ds-active { display: block; animation: dsFade_${uId} 0.3s ease; }
+                .${scope} .ds-new-tab-grid { display: flex; flex-direction: column; gap: 24px; }
+                @media(min-width: 768px) { .${scope} .ds-new-tab-grid { flex-direction: row; align-items: flex-start; } }
+                .${scope} .ds-new-tab-img-wrap { flex: 1 1 40%; max-width: 100%; }
+                .${scope} .ds-new-tab-img { width: 100%; height: auto; display: block; border-radius: 0px; object-fit: cover; aspect-ratio: 16/9; border: 1px solid #e7e7e7;}
+                .${scope} .ds-new-tab-content { flex: 1 1 60%; display: flex; flex-direction: column; align-items: flex-start; }
+                .${scope} .ds-new-tab-content h4 { margin: 0 0 16px 0; font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 8px;}
+                .${scope} .ds-new-tab-content p { margin: 0 0 20px 0; color: #333; font-size: 16px; line-height: 1.6;}
+                .${scope} .ds-new-tab-cta { display: inline-block; padding: 12px 24px; font-weight: 700; text-decoration: none; border: 2px solid transparent; text-align: center; transition: 0.3s; border-radius: 0px; }
+                @keyframes dsFade_${uId} { from {opacity: 0; transform: translateY(5px);} to {opacity: 1; transform: translateY(0);} }
+                `;
+                js = `<script>
+                    window.dsSwitchTab_${uId} = function(idx) {
+                        const c = document.getElementById('${scope}');
+                        if(!c) return;
+                        c.querySelectorAll('.ds-new-tab-btn').forEach((b, i) => b.classList.toggle('ds-active', i === idx));
+                        c.querySelectorAll('.ds-new-tab-pane').forEach((p, i) => p.classList.toggle('ds-active', i === idx));
+                    };
+                <\/script>`;
+                const nav = items.map((i, idx) => `<button class="ds-new-tab-btn ${idx===0?'ds-active':''}" onclick="dsSwitchTab_${uId}(${idx})">${i.title}</button>`).join('');
+                const panes = items.map((i, idx) => {
+                    let img = i.image ? `<div class="ds-new-tab-img-wrap"><img src="${i.image}" class="ds-new-tab-img" alt="${i.title}"></div>` : '';
+                    let icon = i.icon ? `<i class="fi ${i.icon}" style="font-size:28px;"></i>` : '';
+                    let btn = i.ctaText ? `<a href="${i.ctaLink}" target="${i.ctaTarget}" class="ds-new-tab-cta" style="background-color:${i.color}; color:#FFF; border-color:${i.color};" onmouseover="this.style.backgroundColor='transparent'; this.style.color='${i.color}'" onmouseout="this.style.backgroundColor='${i.color}'; this.style.color='#FFF'">${i.ctaText}</a>` : '';
+                    return `
+                    <div class="ds-new-tab-pane ${idx===0?'ds-active':''}">
+                        <div class="ds-new-tab-grid">
+                            ${img}
+                            <div class="ds-new-tab-content">
+                                <h4 style="color:${i.color}">${icon}${i.title}</h4>
+                                <p>${i.desc}</p>
+                                ${btn}
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+                html = `<div class="${scope}" id="${scope}"><div class="ds-new-tabs-nav">${nav}</div><div class="ds-new-tabs-content">${panes}</div></div>`;
+            }
+            else if (advCurrentType === 'carousel') {
+                css = `
+                .${scope} { font-family: 'Open Sans', sans-serif; position: relative; width: 100%; box-sizing: border-box; }
+                .${scope} .ds-new-car-wrapper { overflow: hidden; position: relative; padding-bottom: 20px;}
+                .${scope} .ds-new-car-track { display: flex; transition: transform 0.4s ease-in-out; }
+                .${scope} .ds-new-car-item { flex: 0 0 100%; min-width: 0; padding: 16px; box-sizing: border-box; }
+                @media(min-width: 768px) { .${scope} .ds-new-car-item { flex: 0 0 50%; } }
+                @media(min-width: 1024px) { .${scope} .ds-new-car-item { flex: 0 0 33.3333%; } }
+                .${scope} .ds-new-car-inner { padding: 24px; border: 1px solid #E7E7E7; background: #FFF; border-top-width: 4px; display: flex; flex-direction: column; height: 100%; border-radius: 0px; box-sizing: border-box;}
+                .${scope} .ds-new-icon { font-size: 32px; margin-bottom: 12px; display: block; }
+                .${scope} .ds-new-car-inner h4 { font-size: 20px; font-weight: 700; color: #333; margin: 0 0 12px 0; display:flex; align-items:center; gap:8px;}
+                .${scope} .ds-new-car-inner p { font-size: 16px; color: #666; margin: 0 0 20px 0; flex-grow: 1; }
+                .${scope} .ds-new-btn { display: inline-block; padding: 12px 24px; font-weight: 700; text-decoration: none; border: 2px solid transparent; text-align: center; transition: 0.3s; border-radius: 0px; }
+                .${scope} .ds-new-nav { display: flex; justify-content: center; gap: 16px; margin-top: 10px; }
+                .${scope} .ds-new-nav-btn { background: #0A00BD; color: white; border: none; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; border-radius: 0px;}
+                .${scope} .ds-new-nav-btn:hover { background: #FF3399; }
+                `;
+                
+                const slides = items.map(i => {
+                    let icon = i.icon ? `<i class="fi ${i.icon} ds-new-icon" style="color: ${i.color};"></i>` : '';
+                    let btn = i.ctaText ? `<a href="${i.ctaLink}" target="${i.ctaTarget}" class="ds-new-btn" style="background-color:${i.color}; color:#FFF;" onmouseover="this.style.backgroundColor='transparent'; this.style.color='${i.color}'; this.style.borderColor='${i.color}'" onmouseout="this.style.backgroundColor='${i.color}'; this.style.color='#FFF'; this.style.borderColor='transparent'">${i.ctaText}</a>` : '';
+                    return `<div class="ds-new-car-item"><div class="ds-new-car-inner" style="border-top-color: ${i.color}">${icon}<h4>${i.title}</h4><p>${i.desc}</p><div>${btn}</div></div></div>`;
+                }).join('');
+                
+                js = `<script>
+                    (function(){
+                        const wrapper = document.getElementById('${scope}');
+                        if(!wrapper) return;
+                        const track = wrapper.querySelector('.ds-new-car-track');
+                        const items = track.querySelectorAll('.ds-new-car-item');
+                        if(!track || items.length === 0) return;
+                        let idx = 0;
+                        function update_${uId}() {
+                            const w = wrapper.clientWidth;
+                            let v = 1; if(w >= 1024) v = 3; else if(w >= 768) v = 2;
+                            const max = Math.max(0, items.length - v);
+                            if(idx > max) idx = max;
+                            track.style.transform = 'translateX(-' + (idx * items[0].offsetWidth) + 'px)';
+                        }
+                        window.next_${uId} = function() {
+                            const w = wrapper.clientWidth;
+                            let v = 1; if(w >= 1024) v = 3; else if(w >= 768) v = 2;
+                            const max = Math.max(0, items.length - v);
+                            if(idx < max) { idx++; update_${uId}(); }
+                        };
+                        window.prev_${uId} = function() {
+                            if(idx > 0) { idx--; update_${uId}(); }
+                        };
+                        window.addEventListener('resize', update_${uId});
+                        setTimeout(update_${uId}, 200);
+                    })();
+                <\/script>`;
+                
+                html = `<div class="${scope}" id="${scope}">
+                    <div class="ds-new-car-wrapper"><div class="ds-new-car-track">${slides}</div></div>
+                    <div class="ds-new-nav">
+                        <button class="ds-new-nav-btn" onclick="prev_${uId}()">&#10094;</button>
+                        <button class="ds-new-nav-btn" onclick="next_${uId}()">&#10095;</button>
+                    </div>
+                </div>`;
+            }
+
+            return `\n<style>${css}</style>\n${html}\n${js}\n`;
+        }
+
+        window.advRenderPreview = function() {
+            const el = document.getElementById('adv-preview');
+            if(el) {
+                el.innerHTML = advGetGeneratedCode();
+                document.querySelectorAll('#adv-preview a').forEach(a => a.addEventListener('click', e => e.preventDefault()));
+                
+                Array.from(el.querySelectorAll('script')).forEach(s => {
+                    const newScript = document.createElement('script');
+                    newScript.text = s.text;
+                    document.body.appendChild(newScript).parentNode.removeChild(newScript);
+                });
+            }
+        }
+
+        window.advCopyBuilderHTML = function() {
+            copyToClipboard(advGetGeneratedCode(), 'Safe Code Copied!');
+        }
+
+        // Pro Icon Gallery based on Flaticon's uicons-regular-straight package
+        const advUicons = [
+            { class: 'fi-rs-star', name: 'Star', tags: 'favorite highlight star' },
+            { class: 'fi-rs-graduation-cap', name: 'Graduation', tags: 'teaching school university cap' },
+            { class: 'fi-rs-rocket', name: 'Rocket', tags: 'launch innovation future rocket' },
+            { class: 'fi-rs-puzzle-piece', name: 'Puzzle', tags: 'piece flexibility adaptable' },
+            { class: 'fi-rs-check', name: 'Check', tags: 'success ok validated' },
+            { class: 'fi-rs-document', name: 'Document', tags: 'paper article blog' },
+            { class: 'fi-rs-book-alt', name: 'Book', tags: 'study notebook didactic' },
+            { class: 'fi-rs-chart-histogram', name: 'Chart', tags: 'statistics growth analysis' },
+            { class: 'fi-rs-users', name: 'Users', tags: 'people students users users' },
+            { class: 'fi-rs-folder', name: 'Folder', tags: 'folder portfolio files folder' },
+            { class: 'fi-rs-briefcase', name: 'Briefcase', tags: 'work bag managers' },
+            { class: 'fi-rs-chalkboard-user', name: 'Chalkboard', tags: 'board teacher teaching' },
+            { class: 'fi-rs-bell', name: 'Bell', tags: 'alert notification' },
+            { class: 'fi-rs-calendar', name: 'Calendar', tags: 'date event' },
+            { class: 'fi-rs-camera', name: 'Camera', tags: 'photo image' },
+            { class: 'fi-rs-envelope', name: 'Email', tags: 'contact message letter' }
+        ];
+
+        window.advRenderIcons = function(filter = '') {
+            const color = document.getElementById('adv-icon-color-picker').value;
+            const grid = document.getElementById('adv-icon-grid');
+            if(!grid) return;
+            grid.innerHTML = '';
+            
+            const filtered = advUicons.filter(i => i.name.toLowerCase().includes(filter) || i.tags.toLowerCase().includes(filter));
+            
+            if(filtered.length === 0) {
+                grid.innerHTML = '<p class="text-slate-500 w-full text-center py-10">No icons found.</p>';
+                return;
+            }
+
+            filtered.forEach((icon) => {
+                const div = document.createElement('div');
+                div.className = "p-4 border border-slate-200 bg-slate-50 flex flex-col items-center gap-4 hover:border-brand-green cursor-pointer transition-colors w-36";
+                div.innerHTML = `
+                    <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fi ${icon.class}" style="font-size: 32px; color: ${color};"></i>
+                    </div>
+                    <span class="text-xs font-bold text-slate-500 text-center truncate w-full">${icon.name}</span>
+                    <div class="flex flex-col gap-2 w-full mt-2">
+                        <button class="bg-slate-800 text-white p-2 hover:bg-slate-600 text-xs font-bold w-full" title="Copy HTML" onclick="advCopyHTML('${icon.class}')"><i class="fi fi-rs-code"></i> HTML</button>
+                    </div>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        window.advFilterIcons = function() {
+            const q = document.getElementById('adv-icon-search').value.toLowerCase();
+            advRenderIcons(q);
+        }
+
+        window.advCopyHTML = function(className) {
+            const color = document.getElementById('adv-icon-color-picker').value;
+            const htmlCode = `<i class="fi ${className}" style="color: ${color};"></i>`;
+            copyToClipboard(htmlCode, 'HTML Code Copied!');
+        }
+
+        // GENERAL JS INIT (ONLY IF ELEMENTS EXIST)
+        if(document.getElementById('builder-items-container')){
+            renderBuilderControls();
+        }
+        if(document.getElementById('adv-items-container')){
+            window.advRenderControls();
+            switchAdvTab('componentes');
+        }
+
+    </script>
+</body>
+</html>
